@@ -1,0 +1,19 @@
+{
+	"Syslog":{
+		"OS": "Debian",
+		"Platform": "Server",
+		"Program": "Arrigo",
+		"":""
+	},
+	"Trace": {
+		"Source": "Server3.Login.Sublogger",
+		"Errors":[
+			{ 
+				"Unhandled Exception": "Unhandled Exception at (65, 22)." 
+			},
+			{
+				"I Dont know...": "Some exception caused"
+			}
+		]
+	}
+}

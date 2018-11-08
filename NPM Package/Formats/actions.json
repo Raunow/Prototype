@@ -1,0 +1,48 @@
+{
+	"Session_UID": "#j3D¤#f8fd4J#83D",
+	"Login": 76513241566889942,
+	"Actions":[
+		{
+			"Offset": 294,
+			"Type": "Left-Click",
+			"Target": "Alarm",
+			"Ask Teo about response and succes measuring": true
+		},
+		{
+			"Offset": 3547,
+			"Type": "Left-Click",
+			"Target": "Alarm ID",
+			"HTTPCode": 200
+		},
+		{
+			"Offset": 4147,
+			"Type": "Left-Click",
+			"Target": "Expand",
+			"HTTPCode": 500
+		},
+		{
+			"Offset": 4874,
+			"Type": "Left-Click",
+			"Target": "Expand",
+			"HTTPCode": 500
+		},
+		{
+			"Offset": 5200,
+			"Type": "Left-Click",
+			"Target": "Expand",
+			"HTTPCode": 500
+		},
+		{
+			"Offset": 5300,
+			"Type": "Left-Click",
+			"Target": "Expand",
+			"HTTPCode": null
+		},
+		{
+			"Offset": 5400,
+			"Type": "Left-Click",
+			"Target": "Expand",
+			"HTTPCode": null
+		}
+	]
+}
