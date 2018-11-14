@@ -1,7 +1,15 @@
-//import {ClusterLogger} from 'loggin'
 
 
-/*if (process.env.__debug__ )
-ClusterLogger.subscribe(all, (payload)=> {
+class App {
+	public subscribe(){
 
-}*/
+	}
+
+	
+	public run(){
+
+	}
+
+}
+
+throw new Error();
