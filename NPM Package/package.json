@@ -6,8 +6,8 @@
   "scripts": {
     "start": "tsc && node dist/index.js",
     "nodemon": "tsc -w | nodemon dist/index.js --watch dist/**/*.js",
-	"tslint": "tslint --fix 'src/**/*.ts' --exclude '**/*.d.ts'",
-	"dev": "npm run tslint | tsc && npm run nodemon"
+    "tslint": "tslint --fix 'src/**/*.ts' --exclude '**/*.d.ts'",
+    "dev": "npm run tslint | tsc && npm run nodemon"
   },
   "repository": {
     "type": "git",
