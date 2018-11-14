@@ -1,0 +1,17 @@
+{
+	"Syslog":{
+		"OS": "Debian",
+		"Platform": "Server",
+		"SourceApp": "ExoScada",
+		"SourceURL": "Server3.Login.Sublogger"
+	},
+	"Trace": {
+		"Parent": "Arrigo.",
+		"Errors":[
+			{
+				"Exception": "Unhandled Exception at (65, 22).",
+				"Error_Message": "Some exception caused"
+			}
+		]
+	}
+}
