@@ -4,9 +4,10 @@
   "description": "Logging lib ",
   "main": "index.ts",
   "scripts": {
-	"test": "build",
-	"nodemon": "tsc -w | nodemon dist/index.js --watch dist/**/*.js",
-	"tslint": "tslint --fix 'src/**/*.ts' --exclude '**/*.d.ts'"
+    "start": "tsc && node dist/index.js",
+    "nodemon": "tsc -w | nodemon dist/index.js --watch dist/**/*.js",
+	"tslint": "tslint --fix 'src/**/*.ts' --exclude '**/*.d.ts'",
+	"dev": "npm run tslint | tsc && npm run nodemon"
   },
   "repository": {
     "type": "git",

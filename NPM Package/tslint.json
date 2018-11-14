@@ -3,7 +3,7 @@
     "extends": [],
     "jsRules": {},
     "rules": {
-        "no-any": false,
+        "no-any": true,
         "new-parens": true,
         "no-conditional-assignment": true,
         "no-namespace": true,

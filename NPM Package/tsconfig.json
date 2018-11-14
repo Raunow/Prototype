@@ -2,7 +2,7 @@
 	"compilerOptions": {
 		"target": "es6",
 		"module": "commonjs",
-		"outDir": "dist",
+		"outDir": "dist/",
 		"sourceMap": true,
 		"preserveConstEnums": true,
 		"removeComments": false,
@@ -11,7 +11,7 @@
 		]
 	},
 	"include": [
-		"src/index.ts"
+		"index.ts"
 	],
 	"exclude": [
 		"node_modules"
