@@ -2,16 +2,25 @@
 	"Syslog":{
 		"OS": "Debian",
 		"Platform": "Server",
-		"SourceApp": "ExoScada",
-		"SourceURL": "Server3.Login.Sublogger"
+		"AppName": "ExoScada",
+		"IP": "",
+		"pid": 378,
+		"Directory": ""
 	},
-	"Trace": {
+	"Errors":[ {
+		"Timestamp": 7891538643,
 		"Parent": "Arrigo.",
-		"Errors":[
-			{
-				"Exception": "Unhandled Exception at (65, 22).",
-				"Error_Message": "Some exception caused"
-			}
+		"Message": "Divide by zero",
+		"Stack":[
+			"App.test1 (index.js:6:33)",
+			"App.test2 (index.js:7:33)",
+			"Object.<anonymous> (index.js:49:5)"
 		]
-	}
+	}],
+	"Logs":[ {
+		"Timestamp": 789153288643,
+		"Parent": "Arrigo.",
+		"Message": "Meter retrived",
+		"SourceURL": "EXOScada.Getters.GetMeter"
+	}]
 }

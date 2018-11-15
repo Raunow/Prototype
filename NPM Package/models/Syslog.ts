@@ -1,8 +1,8 @@
 export interface Syslog {
-	OS: string,
 	Platform: string,
-	SourceApp: string,
-	SourceURL: string,
-	Query: JSON //???
-
+	OS: string,
+	Directory: string,
+	AppName: string,
+	IP: string,
+	PID: number
 }

@@ -1,7 +1,5 @@
-import { Syslog } from "./Syslog";
-import { Trace } from "./Trace";
+import { Base } from "./Base";
 
-export interface Error extends Syslog, Trace {
-	Syslog: Syslog,
-	Trace: Trace
+export interface Error extends Base {
+	Stack: Array<string>
 }

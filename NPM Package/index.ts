@@ -1,40 +1,79 @@
-import { writeFile, write } from 'fs'
+import { writeFile } from 'fs'
 
-export class App {
-	public subscribe() {
-		var stackTrace = (new Error()).stack; // Only tested in latest FF and Chrome
-		var callerName = stackTrace.replace(/^Error\s+/, ''); // Sanitize Chrome
-		callerName = callerName.split("\n")[1]; // 1st item is this, 2nd item is caller
-		callerName = callerName.replace(/^\s+at Object./, ''); // Sanitize Chrome
-		callerName = callerName.replace(/ \(.+\)$/, ''); // Sanitize Chrome
-		callerName = callerName.replace(/\@.+/, ''); // Sanitize Firefox
+/*
+const logFile = new logFile(['Logger', 'sublogger']);
+logFile.log(message)
 
-		this.Log(callerName)
-		// 1st item is this, 2nd item is caller
+
+setTimeout(() => {
+	let logFileToSend = logFile;
+	logFile = new logFile();
+	SendLogFile(logFileToSend)
+})*/
+
+export class Cluster {
+
+	private AssembleError(error: Error, msg: string) {
+		let trace: Array<string> = error.stack.replace(/^Error\s+/, '').split("\n"); // Only tested in latest FF and Chrome
+		
+		for (let i = 0; i < 6; i++) {
+			trace.pop();
+		}
+		trace.map((caller) => {
+			let temp: string = caller.split("\\").pop();
+			caller = caller.replace(/at /, '').replace(/\@.+/, '');
+			caller = caller.replace(/ \(.+\)/, '');
+			//caller = caller
+		})
+		
+		/*let done: Array<string> = new Array<string>();
+
+		trace.forEach(function (caller: string) {
+			let temp: string = caller.split("\\").pop();
+			caller = caller.replace(/at /, '').replace(/\@.+/, '');
+			caller = caller.replace(/ \(.+\)/, '');
+			//caller = caller
+
+			done.push(caller + " (" + temp); //Display the first and the rest are hidden;
+		});*/
+
+		
+		LogOut(trace.join("\n")/* + "\n\n" + done.join("\n")*/);
+
 	}
 
-	public test() {
-		this.subscribe();
+	private AssembleInfo(error: string, msg: string) {
 	}
 
-	public test1() {
-		this.test();
+	public error(err: Error, message: string = undefined) {
+		this.AssembleError(err, message || err.message)
 	}
 
-	public Log(log: any) {
-		writeFile(`${__dirname}/test.txt`, log, (error) => {
-			if (error) {
-				console.error(error.stack);
-				return;
-			}
-			console.log("File has been created");
-		});
+	public info(message) {
+		let logstack = (new Error()).stack;
+		this.AssembleInfo(logstack, message)
+	}
+
+	public SomeTestMethod = () => {
+		try {
+			this.info('try to devide by zero')
+			let temp = 1 / 0;
+		}
+		catch (err) {
+			this.error(err);
+		}
 	}
 }
 
+function LogOut(log: string) {
+	writeFile(`${__dirname}/test.txt`, log, (error) => {
+		if (error) {
+			console.error(error.stack);
+			return;
+		}
+		console.log("File created");
+	});
+};
 
-try { throw new Error("test error string"); }
-catch (e) {
-	let app: App = new App();
-	app.test1();
-}
+let app: Cluster = new Cluster();
+app.SomeTestMethod();
