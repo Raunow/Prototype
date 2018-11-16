@@ -1,4 +1,4 @@
-export interface Base {
+export interface IBase {
 	Timestamp: number,
 	Parent: string,
 	Message: string

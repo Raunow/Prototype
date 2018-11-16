@@ -17,7 +17,7 @@
 			"Object.<anonymous> (index.js:49:5)"
 		]
 	}],
-	"Logs":[ {
+	"Info":[ {
 		"Timestamp": 789153288643,
 		"Parent": "Arrigo.",
 		"Message": "Meter retrived",
