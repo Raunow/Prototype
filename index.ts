@@ -1,4 +1,5 @@
 import { writeFile } from 'fs'
+import { Tracer, Tags, Span} from 'opentracing';
 
 /*
 const logFile = new logFile(['Logger', 'sublogger']);
@@ -11,35 +12,31 @@ setTimeout(() => {
 	SendLogFile(logFileToSend)
 })*/
 
+const tracer: Tracer = new Tracer();
+const bigSpan: Span = tracer.startSpan('test');
+bigSpan.setTag(Tags.COMPONENT, false);
+bigSpan.log({'event': 'test'});
+bigSpan.finish();
+
 export class Cluster {
 
 	private AssembleError(error: Error, msg: string) {
-		let trace: Array<string> = error.stack.replace(/^Error\s+/, '').split("\n"); // Only tested in latest FF and Chrome
+		let trace: Array<string> = error.stack.replace(/^Error\s+/, '').split("\n");
 		
-		for (let i = 0; i < 6; i++) {
+		for (let i = 0; i < 8; i++) {
 			trace.pop();
 		}
-		trace.map((caller) => {
-			let temp: string = caller.split("\\").pop();
-			caller = caller.replace(/at /, '').replace(/\@.+/, '');
-			caller = caller.replace(/ \(.+\)/, '');
-			//caller = caller
-		})
-		
-		/*let done: Array<string> = new Array<string>();
+		let done: Array<string> = new Array<string>();
 
 		trace.forEach(function (caller: string) {
 			let temp: string = caller.split("\\").pop();
 			caller = caller.replace(/at /, '').replace(/\@.+/, '');
 			caller = caller.replace(/ \(.+\)/, '');
-			//caller = caller
 
-			done.push(caller + " (" + temp); //Display the first and the rest are hidden;
-		});*/
-
+			done.push(caller + " (" + temp);
+		});
 		
-		LogOut(trace.join("\n")/* + "\n\n" + done.join("\n")*/);
-
+		LogOut(done.join("\n"));
 	}
 
 	private AssembleInfo(error: string, msg: string) {
@@ -55,18 +52,17 @@ export class Cluster {
 	}
 
 	public SomeTestMethod = () => {
-		try {
-			this.info('try to devide by zero')
-			let temp = 1 / 0;
-		}
-		catch (err) {
-			this.error(err);
-		}
+		let err: Error = new Error();
+		let span: Span = tracer.startSpan('Logging', {childOf: bigSpan})
+		span.setTag(Tags.ERROR, true);
+		span.log({'event': 'error', 'error.object': err, 'message': err.message, 'stack': err.stack}, new Date().getTime());
+		span.finish(new Date().getTime());
+		LogOut(JSON.stringify(span));
 	}
 }
 
-function LogOut(log: string) {
-	writeFile(`${__dirname}/test.txt`, log, (error) => {
+function LogOut(log: any) {
+	writeFile(`${__dirname}/test.json`, log, error => {
 		if (error) {
 			console.error(error.stack);
 			return;
