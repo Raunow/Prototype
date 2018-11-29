@@ -1,5 +1,5 @@
-import { IBase } from "./Base";
+import { Base } from "./Base";
 
-export interface IError extends IBase {
+export interface Error extends Base {
 	Stack: Array<string>
 }

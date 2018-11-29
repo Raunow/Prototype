@@ -1,4 +1,4 @@
-export interface ISyslog {
+export interface Syslog {
 	Platform: string,
 	OS: string,
 	Directory: string,

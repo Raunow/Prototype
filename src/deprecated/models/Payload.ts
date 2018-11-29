@@ -1,9 +1,9 @@
-import { ISyslog } from "./Syslog";
-import { IError } from "./Error";
-import { IInfo } from "./info";
+import { Syslog } from "./Syslog";
+import { Error } from "./Error";
+import { Logs } from "./Logs";
 
 export interface IPayload {
-	Syslog: ISyslog,
-	Errors: Array<IError>,
-	Logs: Array<IInfo>
+	Syslog: Syslog,
+	Errors: Array<Error>,
+	Logs: Array<Logs>
 }
