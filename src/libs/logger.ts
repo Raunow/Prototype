@@ -1,5 +1,5 @@
 import { writeFile } from "fs";
-import { Span, Tags} from '../OpenTracing/index'
+import { Span, Tags} from '@raunow/rs-opentrace'
 
 export function LogOut(log: any, rootSpan: Span): any {
 	let span: Span = rootSpan.Tracer().StartSpan('LogOut', rootSpan);

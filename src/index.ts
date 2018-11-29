@@ -1,5 +1,5 @@
 import { app } from './clusterApp';
-import { Tracer, Span } from './OpenTracing/index';
+import { Tracer, Span } from '@raunow/rs-opentrace';
 
 let rootSpan: Span = Tracer.StartSpan('RootSpan');
 

@@ -8,7 +8,7 @@
 			"Offset": 294,
 			"Type": "Left-Click",
 			"Target": "Alarm",
-			"Ask Teo about response and succes measuring": true
+			"Ask Teo about response and success measuring": true
 		},
 		{
 			"Offset": 3547,

@@ -1,0 +1,20 @@
+{
+	"config": {
+		"serviceName": "Cluster Log V1",
+		"sampler": {
+			"type": "const",
+			"param": 1
+		},
+		"reporter": {
+			"logSpans": true
+		}
+	},
+	"options": {
+		"tags": {
+			"uptime": true,
+			"pid": true,
+			"arch": true,
+			"platform": true
+		}
+	}
+}

@@ -1,4 +1,4 @@
-import { Span, Tags } from './OpenTracing/index';
+import { Span, Tags } from '@raunow/rs-opentrace';
 import { LogOut } from './libs/logger';
 
 export class Cluster {
@@ -18,6 +18,7 @@ export class Cluster {
 
 			done.push(caller + " (" + temp);
 		});
+		
 		span.Log({ "Output": done });
 		LogOut(done.join("\n"), span);
 		span.Finish();

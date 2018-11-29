@@ -1,0 +1,35 @@
+{
+	"config": {
+		"serviceName": string,
+		"disable": boolean,
+		"sampler": {
+			"type": string,
+			"param": number,
+			"host": string,
+			"port": number,
+			"refreshIntervalMs": number
+		},
+		"reporter": {
+			"logSpans": true,
+			"agentHost": string,
+			"agentPort": number,
+			"collectorEndPoint": string,
+			"username": string,
+			"password": string,
+			"flushIntervalMs": number
+		},
+		"throttler": {
+			"host": string,
+			"port": number,
+			"refreshintervalMs": number
+		}
+	},
+	"options": {
+		"tags": {
+			"uptime": true,
+			"pid": true,
+			"arch": true,
+			"platform": true
+		}
+	}
+}
