@@ -1,6 +1,6 @@
 {
 	"config": {
-		"serviceName": "Cluster Log V1",
+		"serviceName": "Cluset Log V1",
 		"sampler": {
 			"type": "const",
 			"param": 1
@@ -10,11 +10,13 @@
 		}
 	},
 	"options": {
+		"logToConsole": false,
 		"tags": {
-			"uptime": true,
+			"startTime": true,
 			"pid": true,
 			"arch": true,
-			"platform": true
+			"platform": true,
+			"clientType": "server"
 		}
 	}
 }

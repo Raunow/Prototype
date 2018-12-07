@@ -1,9 +1,9 @@
 import { app } from './clusterApp';
-import { Tracer, Span } from '@raunow/rs-opentrace';
+import { Span } from '@raunow/rs-opentrace';
 
-let rootSpan: Span = Tracer.StartSpan('RootSpan');
+let rootSpan: Span = new Span('RootSpan');
 
 app.SomeTestMethod(rootSpan);
 
 rootSpan.Finish();
-Tracer.Close();
+rootSpan.Tracer.Close();
