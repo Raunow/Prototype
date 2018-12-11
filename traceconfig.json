@@ -1,6 +1,6 @@
 {
 	"config": {
-		"serviceName": "Cluset Log V1",
+		"serviceName": "Cluster Log V1",
 		"sampler": {
 			"type": "const",
 			"param": 1
@@ -10,7 +10,8 @@
 		}
 	},
 	"options": {
-		"logToConsole": false,
+		"consoleLogMsg": true,
+		"consoleLogSpans": false,
 		"tags": {
 			"startTime": true,
 			"pid": true,

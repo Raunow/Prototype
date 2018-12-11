@@ -20,11 +20,11 @@
   },
   "homepage": "https://github.com/Raunow/ClusterLog#readme",
   "devDependencies": {
-    "@types/node": "^10.12.3",
+    "@types/node": "^10.12.12",
     "tslint": "^5.11.0",
-    "typescript": "^3.1.6"
+    "typescript": "^3.2.2"
   },
   "dependencies": {
-    "@raunow/rs-opentrace": "^0.2.5"
+    "@raunow/rs-opentrace": "^0.2.24"
   }
 }
