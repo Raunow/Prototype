@@ -25,6 +25,9 @@
     "typescript": "^3.2.2"
   },
   "dependencies": {
-    "@raunow/rs-opentrace": "^0.2.24"
+    "@raunow/rs-opentrace": "^0.2.24",
+    "npm": "^6.7.0",
+    "zipkin": "^0.16.0",
+    "zipkin-transport-http": "^0.16.0"
   }
 }

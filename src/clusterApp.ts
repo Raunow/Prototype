@@ -1,4 +1,4 @@
-import { Span, Tags } from '@raunow/rs-opentrace';
+import { ExplicitContext, Tracer, Annotation } from 'zipkin'
 import { LogOut } from './libs/logger';
 
 export class Cluster {
@@ -22,22 +22,22 @@ export class Cluster {
 		LogOut(done.join("\n"), span);
 	}
 
-	public error(err: Error, message: string, rootSpan: Span) {
+	public error(err: Error, message: string) {
 		let span: Span = rootSpan.ChildSpan('Error Function');
 		this.AssembleError(err, message || err.message, span)
 		span.Finish();
 	}
 
-	public SomeTestMethod = (rootSpan: Span) => {
-		let span: Span = rootSpan.ChildSpan('SomeTestMethod');
-		span.Tag(Tags.ERROR, true);
+	public SomeTestMethod = (tracer: Tracer) => {
+		tracer.recordBinary('error', true);
 		let err: Error = new Error();
+
+		tracer.recordAnnotation()
 		span.AddLogs({
 			'event': "Error thrown",
 			'value': `Stack: \n${err.stack}`
 		});
-		this.error(err, null, span);
-		span.Finish();
+		tracer.local('error func', () => this.error(err, null))
 	}
 }
 

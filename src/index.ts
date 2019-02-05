@@ -1,9 +1,21 @@
 import { app } from './clusterApp';
-import { Span } from '@raunow/rs-opentrace';
+import { Tracer, ExplicitContext , jsonEncoder, BatchRecorder, Instrumentation } from 'zipkin';
+import { HttpLogger } from 'zipkin-transport-http';
 
-let rootSpan: Span = new Span('RootSpan');
+let ctx: ExplicitContext = new ExplicitContext();
 
-app.SomeTestMethod(rootSpan);
+let tracer: Tracer = new Tracer({
+    ctxImpl: ctx,
+    recorder: new BatchRecorder({
+        logger: new HttpLogger({
+            endpoint: 'http://localhost:9411/api/v2/spans',
+            jsonEncoder: jsonEncoder.JSON_V2
+        })
+    }),
+    localServiceName: 'Arrigo dev-Zipkin'
+});
 
-rootSpan.Finish();
-rootSpan.Tracer.Close();
+
+let instrumentation = new Instrumentation.HttpServer({tracer, port: 9411, serviceName: 'Arrigo dev-Zipkin'});
+
+tracer.local('SomeTestMethod', () => app.SomeTestMethod(tracer))
