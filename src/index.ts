@@ -1,11 +1,9 @@
 import { app } from './clusterApp';
-import { Tracer, ExplicitContext , jsonEncoder, BatchRecorder, Instrumentation } from 'zipkin';
+import { Tracer, ExplicitContext , jsonEncoder, BatchRecorder, Instrumentation, sampler } from 'zipkin';
 import { HttpLogger } from 'zipkin-transport-http';
 
-let ctx: ExplicitContext = new ExplicitContext();
-
 let tracer: Tracer = new Tracer({
-    ctxImpl: ctx,
+    ctxImpl: new ExplicitContext(),
     recorder: new BatchRecorder({
         logger: new HttpLogger({
             endpoint: 'http://localhost:9411/api/v2/spans',
@@ -15,7 +13,6 @@ let tracer: Tracer = new Tracer({
     localServiceName: 'Arrigo dev-Zipkin'
 });
 
-
 // let instrumentation = new Instrumentation.HttpServer({tracer, port: 9411, serviceName: 'Arrigo dev-Zipkin'});
 
 try {
@@ -23,3 +20,17 @@ try {
 } catch (err){
     tracer.local('ErrorFunction', () => app.error(err, err.message, tracer));
 }
+
+const readline = require('readline');
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+rl.question('What do you think of Node.js? ', (answer) => {
+  // TODO: Log the answer in a database
+  console.log(`Thank you for your valuable feedback: ${answer}`);
+
+  rl.close();
+});

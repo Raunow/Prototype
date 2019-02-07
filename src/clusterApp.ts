@@ -1,4 +1,4 @@
-import { ExplicitContext, Tracer, Annotation } from 'zipkin'
+import { Tracer } from 'zipkin'
 import { LogOut } from './libs/logger';
 
 export class Cluster {
@@ -26,9 +26,7 @@ export class Cluster {
 			this.AssembleError(err, message || err.message, tracer));
 	}
 
-	public SomeTestMethod = () => {
-		throw new Error();
-	}
+	public SomeTestMethod = () => { throw new Error(); }
 }
 
 export const app: Cluster = new Cluster();
