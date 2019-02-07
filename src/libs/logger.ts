@@ -1,22 +1,14 @@
 import { writeFile } from "fs";
-import { Span, Tags} from '@raunow/rs-opentrace'
+import { Tracer } from "zipkin";
 
-export function LogOut(log: any, rootSpan: Span): any {
-	let span: Span = rootSpan.ChildSpan('LogOut');
-	writeFile(`${__dirname}/test.txt`, log, error => {
+export function LogOut(log: any, tracer: Tracer): any {
+	tracer.local('WriteFile', () => writeFile(`${__dirname}/test.txt`, log, error => {
 		if (error) {
-			span.Tag(Tags.ERROR, true);
-			span.AddLogs({
-				'event': "Error thrown",
-				'value': `Error: ${error.name}, Message: ${error.message}, Stack: ${error.stack}`
-			});
 			return;
 		}
 		console.log('File created');
-		span.Tag('File created', true);
-	});
-
-	span.Finish();
+		tracer.recordBinary('File created', true);
+	}));
 };
 
 export const TrimStackTrace = (error: string | Error) => {
@@ -37,7 +29,7 @@ export const TrimStackTrace = (error: string | Error) => {
 			caller = match[1];
 			done.push(caller + " (" + src);
 		}
-	})
+	});
 
 	return done.join("\n");
 }

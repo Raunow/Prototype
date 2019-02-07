@@ -16,6 +16,10 @@ let tracer: Tracer = new Tracer({
 });
 
 
-let instrumentation = new Instrumentation.HttpServer({tracer, port: 9411, serviceName: 'Arrigo dev-Zipkin'});
+// let instrumentation = new Instrumentation.HttpServer({tracer, port: 9411, serviceName: 'Arrigo dev-Zipkin'});
 
-tracer.local('SomeTestMethod', () => app.SomeTestMethod(tracer))
+try {
+    tracer.local('SomeTestMethod', () => app.SomeTestMethod());
+} catch (err){
+    tracer.local('ErrorFunction', () => app.error(err, err.message, tracer));
+}

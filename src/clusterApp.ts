@@ -3,8 +3,7 @@ import { LogOut } from './libs/logger';
 
 export class Cluster {
 
-	private AssembleError(error: Error, msg: string, rootSpan: Span) {
-		let span: Span = rootSpan.ChildSpan('Assemble Error Function');
+	private AssembleError(error: Error, msg: string, tracer: Tracer) {
 		let trace: Array<string> = error.stack.replace(/^Error\s+/, '').split("\n");
 		let done: Array<string> = new Array<string>();
 
@@ -19,25 +18,16 @@ export class Cluster {
 			}
 		})
 
-		LogOut(done.join("\n"), span);
+		tracer.local('LogOut', () => LogOut(done.join("\n"), tracer));
 	}
 
-	public error(err: Error, message: string) {
-		let span: Span = rootSpan.ChildSpan('Error Function');
-		this.AssembleError(err, message || err.message, span)
-		span.Finish();
+	public error(err: Error, message: string, tracer: Tracer) {
+		tracer.local('Assemble Error', () => 
+			this.AssembleError(err, message || err.message, tracer));
 	}
 
-	public SomeTestMethod = (tracer: Tracer) => {
-		tracer.recordBinary('error', true);
-		let err: Error = new Error();
-
-		tracer.recordAnnotation()
-		span.AddLogs({
-			'event': "Error thrown",
-			'value': `Stack: \n${err.stack}`
-		});
-		tracer.local('error func', () => this.error(err, null))
+	public SomeTestMethod = () => {
+		throw new Error();
 	}
 }
 
