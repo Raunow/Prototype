@@ -1,5 +1,5 @@
 {
-  "name": "clusterlog",
+  "name": "Prototype",
   "version": "1.0.0",
   "description": "Logging lib ",
   "main": "index.ts",
@@ -11,16 +11,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Raunow/ClusterLog.git"
+    "url": "git+https://github.com/Raunow/Prototype.git"
   },
   "author": "steff.bpoulsen@gmail.com",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Raunow/ClusterLog/issues"
+    "url": "https://github.com/Raunow/Prototype/issues"
   },
-  "homepage": "https://github.com/Raunow/ClusterLog#readme",
+  "homepage": "https://github.com/Raunow/Prototype#readme",
   "devDependencies": {
-    "@types/node": "^10.12.12",
+    "@types/node": "^10.12.26",
     "tslint": "^5.11.0",
     "typescript": "^3.2.2"
   },
