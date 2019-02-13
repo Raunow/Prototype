@@ -1,9 +1,9 @@
-import {DBColumn} from '../libs/decorators';
+import {DBColumn, CopyTo} from '../libs/decorators';
 import {IBase} from './base';
 
 export class Document implements IBase {
 	constructor(input: any) {
-		Object.keys(input).map(key => this[key] = input[key]);
+		CopyTo(input, this);
 	}
 	
 	uid: string;

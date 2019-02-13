@@ -9,3 +9,7 @@ export function DBColumn(columnName: string) {
 		}
 	}
 }
+
+export const CopyTo = (o: any, p: any) => {
+	Object.keys(o).map(key => p[key] = o[key]);
+}
