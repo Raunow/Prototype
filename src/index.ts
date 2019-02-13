@@ -1,36 +1,37 @@
-import { app } from './clusterApp';
-import { Tracer, ExplicitContext , jsonEncoder, BatchRecorder, Instrumentation, sampler } from 'zipkin';
-import { HttpLogger } from 'zipkin-transport-http';
+//import { Building } from './models/building';
+import { Document } from './models/document';
+import { IBase } from './models/base';
 
-let tracer: Tracer = new Tracer({
-    ctxImpl: new ExplicitContext(),
-    recorder: new BatchRecorder({
-        logger: new HttpLogger({
-            endpoint: 'http://localhost:9411/api/v2/spans',
-            jsonEncoder: jsonEncoder.JSON_V2
-        })
-    }),
-    localServiceName: 'Arrigo dev-Zipkin'
+// We have to change the result of queries from
+// "result as T" -> result = new T(queryResult)
+let document = new Document({
+	uid: 'dhiNXWAjdfwenfåOXZNDaWdnwSDobfui', 
+	id: 10, 
+	name: 'nope', 
+	filename: 'steff', 
+	documentTypeId: 1, 
+	standardDoc: true, 
+	generalDoc: 1
 });
 
-// let instrumentation = new Instrumentation.HttpServer({tracer, port: 9411, serviceName: 'Arrigo dev-Zipkin'});
+function ColumnNames(o: IBase) {
+	return Object.keys(o).reduce(
+		(sum, key) => key !== 'uid' ? `${sum}\n  ${key} = ${o[`${key}DBColumn`]}` : sum);
+	}
 
-try {
-    tracer.local('SomeTestMethod', () => app.SomeTestMethod());
-} catch (err){
-    tracer.local('ErrorFunction', () => app.error(err, err.message, tracer));
+// SQL 'SELECT Query' generator
+function generator (o: IBase): string {
+	let query = Object.keys(o).reduce(
+		(sum, key) => key !== 'uid' ? `${sum}\n  ${o[`${key}DBColumn`]} as ${key},` : sum, 'SELECT ');
+
+	return query.substring(0, query.length - 1);
 }
 
-const readline = require('readline');
+const documentQuery = generator(document)
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
-
-rl.question('What do you think of Node.js? ', (answer) => {
-  // TODO: Log the answer in a database
-  console.log(`Thank you for your valuable feedback: ${answer}`);
-
-  rl.close();
-});
+// prints out everything in a readable format
+console.log(document);
+console.log('\nColumn names:');
+console.log(ColumnNames(document));
+console.log('\nSQL Query');
+console.log(documentQuery);
