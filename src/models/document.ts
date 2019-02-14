@@ -1,28 +1,30 @@
-import {DBColumn, CopyTo} from '../libs/decorators';
-import {IBase} from './base';
+import { DBColumn, Filterable } from "../libs/decorators";
+import { IBase } from "./base";
 
-export class Document implements IBase {
-	constructor(input: any) {
-		CopyTo(input, this);
-	}
-	
-	uid: string;
+@DBTable("Dokument")
+class Document implements IBase {
+  uid: string;
 
-	@DBColumn('DID')
-	id: number;
+  @DBColumn("DID")
+  @Filterable(typeof number) //TODO Request cap defined in resolver
+  id: number;
 
-	@DBColumn('Doknamn')
-	name: string;
+  test: number;
 
-	@DBColumn('filnamn')
-	filename: string;
+  @DBColumn("Doknamn")
+  name: string;
 
-	@DBColumn('DTID')
-	documentTypeId: number;
+  @DBColumn("filnamn")
+  filename: string;
 
-	@DBColumn('StdDok')
-	standardDoc: boolean;
+  @DBColumn("DTID")
+  documentTypeId: number;
 
-	@DBColumn('GeneralDoc')
-	generalDoc: number;
+  @DBColumn("StdDok")
+  standardDoc: boolean;
+
+  @DBColumn("GeneralDoc")
+  generalDoc: number;
 }
+
+export { Document };
