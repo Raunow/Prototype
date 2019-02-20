@@ -1,37 +1,61 @@
-//import { Building } from './models/building';
-import { Document } from './models/document';
-import { IBase } from './models/base';
+import { Document } from "./models/document";
+import { Building } from "./models/building";
 
-// We have to change the result of queries from
-// "result as T" -> result = new T(queryResult)
-let document = new Document({
-	uid: 'dhiNXWAjdfwenfåOXZNDaWdnwSDobfui', 
-	id: 10, 
-	name: 'nope', 
-	filename: 'steff', 
-	documentTypeId: 1, 
-	standardDoc: true, 
-	generalDoc: 1
-});
+let obj;
+if (true){
+  let Template = new Document();
+  obj = {
+    uid: "dhiNXWAjdfwenfåOXZNDaWdnwSDobfui",
+    id: 10,
+    name: "nope",
+    filename: "steff",
+    test: 2,
+    documentTypeId: 1,
+    standardDoc: true,
+    generalDoc: 1
+  };
 
-function ColumnNames(o: IBase) {
-	return Object.keys(o).reduce(
-		(sum, key) => key !== 'uid' ? `${sum}\n  ${key} = ${o[`${key}DBColumn`]}` : sum);
-	}
+  Object.setPrototypeOf(obj, Template)
+} else {
+  let Template = new Building();
+  obj = {
+    uid: 'string',
+      id: 1,
+      name: 'string',
+      parentId: 2,
+      buildingName: 'string',
+      typeId: 3,
+      account: 'string',
+      constructionYear: 4,
+      usableArea: 5,
+      heatedArea: 6,
+      adminAreaId: 7,
+      address: 'string',
+      pictureFilename: 'string',
+      info: 'string',
+      overviewPictureFilename: 'string',
+      livingArea: 8,
+      localArea: 9,
+      totalArea: 10,
+      secondaryArea: 11,
+      otherArea: 12,
+      city: 'string',
+      commonName: 'string',
+      coordinates: 'string',
+      qrCode: 'string',
+      sumOfLivingAreaAndLocalArea: 13,
+  };
 
-// SQL 'SELECT Query' generator
-function generator (o: IBase): string {
-	let query = Object.keys(o).reduce(
-		(sum, key) => key !== 'uid' ? `${sum}\n  ${o[`${key}DBColumn`]} as ${key},` : sum, 'SELECT ');
-
-	return query.substring(0, query.length - 1);
+  Object.setPrototypeOf(obj, Template)
 }
 
-const documentQuery = generator(document)
+
 
 // prints out everything in a readable format
-console.log(document);
-console.log('\nColumn names:');
-console.log(ColumnNames(document));
-console.log('\nSQL Query');
-console.log(documentQuery);
+
+console.log(obj);
+console.log("\nDocumentTemplate:\n", Object.keys(Document.prototype));
+
+console.log("\nColumn names:\n", (obj as Document).ColumnNames());
+console.log("\nSQL Query:\n", (obj as Document).Select().Query);
+console.log("\nSQL Update:\n", (obj as Document).Update().Query);
