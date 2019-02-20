@@ -1,10 +1,11 @@
 import { Document } from "./models/document";
 import { Building } from "./models/building";
+import { IBase } from "./models/base";
 
 let obj;
 if (true){
-  let Template = new Document();
-  obj = {
+  let Template = new IBase();
+  obj = Template.Create({
     uid: "dhiNXWAjdfwenfåOXZNDaWdnwSDobfui",
     id: 10,
     name: "nope",
@@ -13,7 +14,7 @@ if (true){
     documentTypeId: 1,
     standardDoc: true,
     generalDoc: 1
-  };
+  }, Template);
 
   Object.setPrototypeOf(obj, Template)
 } else {
@@ -55,7 +56,6 @@ if (true){
 
 console.log(obj);
 console.log("\nDocumentTemplate:\n", Object.keys(Document.prototype));
-
-console.log("\nColumn names:\n", (obj as Document).ColumnNames());
+//console.log((obj as Document).DBTable());
 console.log("\nSQL Query:\n", (obj as Document).Select().Query);
 console.log("\nSQL Update:\n", (obj as Document).Update().Query);

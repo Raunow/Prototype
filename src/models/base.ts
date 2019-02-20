@@ -17,10 +17,16 @@ export class IBase {
 	}
 
 	//Debug
-	public ColumnNames() {
-		return this.Table() + '\n' + Object.keys(this).reduce((sum, key) => this.Column(key) ? `${sum}\n ${key} = ${this.Column(key)}` : sum);
-	}
+	public DBTable = () => 'DB Table:\n' + `${this.Table()}${Object.keys(this).reduce((sum, key) => this.Column(key) ? `${sum}\n ${key} = ${this.Column(key)}` : sum, '')}`;
 
+	//Reduce redundancy
 	private Table = () => this[`DBTable`];
 	private Column = (key: string) => this[`${key}DBColumn`];
+ 
+	static Create = (obj, template) => {
+    const o = {};
+    Object.assign(o, obj);
+    Object.setPrototypeOf(o, template);
+    return o;
+  }
 }

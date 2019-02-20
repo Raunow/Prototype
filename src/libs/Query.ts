@@ -3,7 +3,7 @@ import { isString } from "util";
 export class Query {
 	private _query;
 	private _queryType;
-
+	private _wheres: Array<string>;
 	get QueryType() { return this._queryType; }
 	set QueryType(type: QueryType) { this._queryType = type; }
 	get Query() { return this._query; }
@@ -18,8 +18,12 @@ export class Query {
 		return `WHERE `;
 	}
 
-	public InnerJoin(): string {
+	public InnrJoin(): string {
 		return `INNER JOIN `;
+	}
+
+	public toString() {
+		return this._query;
 	}
 }
 

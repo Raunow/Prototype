@@ -1,0 +1,7 @@
+documents(first: last: filter: {
+  name: ["dok", "test"] #Only searches the name for strings with both
+  documentTypeId:[""]
+  ranges: [{ from:, to: }] #ranging is based on created date
+  text: ["testdoc", "varberg"]  #searches in name and filename ("any column and both have to be present")
+  standardDoc: true #filters on standarddoc
+}, orderBy: { fieldName: created })
