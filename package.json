@@ -1,30 +1,31 @@
 {
-  "name": "Prototype",
-  "version": "1.0.0",
-  "description": "Logging lib ",
-  "main": "index.ts",
-  "scripts": {
-    "start": "tsc && node dist/index.js",
-    "nodemon": "tsc -w | nodemon dist/index.js --watch dist/**/*.js",
-    "tslint": "tslint --fix 'src/**/*.ts' --exclude '**/*.d.ts'",
-    "dev": "npm run tslint | tsc && npm run nodemon"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Raunow/Prototype.git"
-  },
-  "author": "steff.bpoulsen@gmail.com",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Raunow/Prototype/issues"
-  },
-  "homepage": "https://github.com/Raunow/Prototype#readme",
-  "devDependencies": {
-    "@types/node": "^10.12.26",
-    "tslint": "^5.11.0",
-    "typescript": "^3.3.3"
-  },
-  "dependencies": {
-    "npm": "^6.8.0"
-  }
+	"name": "prototype",
+	"version": "1.0.0",
+	"description": "Logging lib ",
+	"main": "index.ts",
+	"scripts": {
+		"sub": "tsc && node dist/subscriber.js",
+		"pub": "tsc && node dist/publisher.js",
+		"nodemon": "tsc -w | nodemon dist/index.js --watch dist/**/*.js",
+		"tslint": "tslint --fix 'src/**/*.ts' --exclude '**/*.d.ts'",
+		"dev": "npm run tslint | tsc && npm run nodemon"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Raunow/Prototype.git"
+	},
+	"author": "steff.bpoulsen@gmail.com",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/Raunow/Prototype/issues"
+	},
+	"homepage": "https://github.com/Raunow/Prototype#readme",
+	"devDependencies": {
+		"@types/ioredis": "^4.0.18",
+		"@types/node": "^10.12.26",
+		"typescript": "^3.3.3"
+	},
+	"dependencies": {
+		"ioredis": "^4.14.1"
+	}
 }

@@ -5,6 +5,7 @@
 		"outDir": "dist/",
 		"sourceMap": true,
 		"preserveConstEnums": true,
+		"allowSyntheticDefaultImports": true,
 		"removeComments": false,
 		"experimentalDecorators": true,
 		"typeRoots": [
