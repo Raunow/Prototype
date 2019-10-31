@@ -1,20 +1,31 @@
-import Redis from 'ioredis';
+import { connect, IClientOptions } from 'mqtt';
 
-const redis = new Redis({ port: 30123, host: '192.168.20.23' });
+let topic = 'presence';
+let URL = 'mqtt://192.168.20.24:30123';
+let OPTIONS: IClientOptions = {
+	reconnectPeriod: 1000,
 
-redis.on('pmessage', (pattern, channel, message) => {
-	console.log(pattern, `${channel}: ${message}`);
-})
+}
 
-redis.on('message', (channel, message) => {
-	console.log(channel, message);
-})
+async function main() {
+	try {
+		console.log('Starting')
+		let client = connect(URL, OPTIONS);
+		client.on('connect', async (msg) => {
+			client.subscribe('#', (err) => {
+				if (!err) {
+					//client.publish(topic, 'Online');
+				}
+			});
+		});
 
-redis.psubscribe('*');
-
-redis.subscribe('TEST', (error, count) => {
-	if (error) {
-		throw new Error(error);
+		client.on('message', async (_topic, msg, packet) => {
+			console.log('%s:\n\t%s', _topic, JSON.parse(msg.toString()).node);
+		})
+	} catch (e) {
+		console.log(e)
 	}
-	console.log(`Subbed to ${count} channels`);
-})
+}
+
+
+main();

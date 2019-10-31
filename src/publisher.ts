@@ -1,17 +1,32 @@
-import Redis from 'ioredis';
-import { addListener } from 'cluster';
+import { connect, IClientOptions } from 'mqtt';
 
-const stdin = process.openStdin();
-const redis = new Redis({ port: 30123, host: '192.168.20.23' });
+let topic = 'presence';
+let URL = 'mqtt://localhost:1883';
+let OPTIONS: IClientOptions = {
+	reconnectPeriod: 1000
+}
 
-console.log('Publisher started');
-let channel = 'TEST';
+const main = async () => {
+	let client = connect(URL, OPTIONS);
 
-stdin.addListener('data', data => {
-	let input: string = data.toString().trim();
-	if (input.startsWith('>')) {
-		channel = input.replace('>', '');
-	} else {
-		redis.publish(channel, input);
-	}
-})
+	process.on('exit', async () => {
+		await client.end();
+	})
+
+	console.log('Publisher started');
+	process.stdout.write(topic + ': ');
+
+	process.openStdin().addListener('data', async data => {
+		let input: string = data.toString().trim();
+		if (input.startsWith('>')) {
+			topic = input.slice(1);
+		} else {
+			client.publish(topic, Buffer.from(input));
+		}
+		process.stdout.write(topic + ': ');
+	})
+}
+
+main();
+
+//clientId: 'mqttjs_' + Math.random().toString(16).substr(2, 8)*/
