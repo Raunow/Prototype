@@ -1,6 +1,6 @@
 import Redis from 'ioredis';
 
-const redis = new Redis({ port: 6379, host: '127.0.0.1', autoResubscribe: true });
+const redis = new Redis({ port: 30300, host: 'http://192.168.20.22', autoResubscribe: true });
 
 console.log('Starting')
 

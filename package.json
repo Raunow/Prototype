@@ -5,7 +5,7 @@
 	"main": "index.ts",
 	"scripts": {
 		"sub": "tsc && node dist/subscriber.js",
-		"pub": "tsc && node dist/publisher.js"
+		"pub": "tsc && node dist/publisher.js",
 	},
 	"repository": {
 		"type": "git",
@@ -13,13 +13,11 @@
 	},
 	"author": "steff.bpoulsen@gmail.com",
 	"license": "ISC",
-	"bugs": {
-		"url": "https://github.com/Raunow/Prototype/issues"
-	},
 	"homepage": "https://github.com/Raunow/Prototype#readme",
 	"devDependencies": {
 		"@types/ioredis": "^4.0.18",
 		"@types/node": "^10.12.26",
+		"ts-node-dev": "^1.0.0-pre.44",
 		"typescript": "^3.3.3"
 	},
 	"dependencies": {
