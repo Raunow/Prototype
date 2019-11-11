@@ -6,6 +6,7 @@
 	"scripts": {
 		"sub": "tsc && node dist/subscriber.js",
 		"pub": "tsc && node dist/publisher.js",
+		"start": "tsnd --respawn --cls src/app.ts"
 	},
 	"repository": {
 		"type": "git",
