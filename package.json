@@ -4,9 +4,9 @@
 	"description": "Logging lib ",
 	"main": "index.ts",
 	"scripts": {
-		"sub": "tsc && node dist/subscriber.js",
-		"pub": "tsc && node dist/publisher.js",
-		"start": "tsnd --respawn --cls src/app.ts"
+		"sub": "tsc && node dist/redis/subscriber.js",
+		"pub": "tsc && node dist/redis/publisher.js",
+		"start": "tsnd --respawn --cls src/index.ts"
 	},
 	"repository": {
 		"type": "git",
@@ -22,6 +22,11 @@
 		"typescript": "^3.3.3"
 	},
 	"dependencies": {
+		"@types/body-parser": "^1.17.1",
+		"@types/express": "^4.17.2",
+		"body-parser": "^1.19.0",
+		"cors": "^2.8.5",
+		"express": "^4.17.1",
 		"ioredis": "^4.14.1"
 	}
 }

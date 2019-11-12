@@ -2,11 +2,18 @@
 	"compilerOptions": {
 		"target": "es6",
 		"module": "commonjs",
+		"lib": [
+			"dom",
+			"es6",
+			"es2017",
+			"esnext.asynciterable"
+		],
 		"outDir": "dist/",
 		"sourceMap": true,
 		"preserveConstEnums": true,
 		"allowSyntheticDefaultImports": true,
 		"removeComments": false,
+		"esModuleInterop": true,
 		"experimentalDecorators": true,
 		"typeRoots": [
 			"./node_modules/@types"
