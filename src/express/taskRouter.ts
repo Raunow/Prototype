@@ -31,7 +31,7 @@ class TaskController {
 	}
 
 	POST({ params, body }: Request, res: Response) {
-		startWorker(this.resolvePath(params.name), body.data).then((result) => {
+		startWorker(this.resolvePath(params.name), body).then((result) => {
 			RespondHTTP(res, 200, result);
 		}, (err) => {
 			RespondHTTP(res, 200, { Error: err.Error.toString(), messages: err.messages });
