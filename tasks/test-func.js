@@ -7,8 +7,8 @@ if (rnd === 1) {
 	parentPort.postMessage(`${workerData.name} ${workerData.lname}`);
 	parentPort.postMessage(`${workerData.name} ${workerData.lname}`);
 } else {
-	parentPort.postMessage(`${workerData.name} ${workerData.lname}`);
-	parentPort.postMessage(`${workerData.name} ${workerData.lname}`);
+	parentPort.postMessage(`${workerData.lname} ${workerData.name}`);
+	parentPort.postMessage(`${workerData.lname} ${workerData.name}`);
 	throw Error('ducked');
 }
 
