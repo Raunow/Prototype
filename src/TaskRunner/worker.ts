@@ -12,10 +12,13 @@ class StateContainer {
 	}
 }
 
+if (!workerData.import) {
+	workerData.import = [];
+}
 
 const log = (...log: Array<any>) => parentPort.postMessage(log);
 const state = new StateContainer();
-const imports = workerData.import.map(lib => require(lib));
+let imports = workerData.import.map(lib => require(lib));
 
 let path = join(__dirname, '../..', `/tasks/${workerData.file}.js`);
 readFile(path, (err, buffer) => {
