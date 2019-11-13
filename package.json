@@ -6,8 +6,8 @@
 	"scripts": {
 		"sub": "tsc && node dist/redis/subscriber.js",
 		"pub": "tsc && node dist/redis/publisher.js",
-		"start": "tsnd --respawn --cls src/index.ts",
-		"mon": "tsc & tsc -w | nodemon dist/index.js --watch dist/**/*.js"
+		"dev": "tsnd --respawn --cls src/index.ts",
+		"start": "tsc & tsc -w | nodemon dist/index.js --watch dist/**/*.js"
 	},
 	"repository": {
 		"type": "git",
