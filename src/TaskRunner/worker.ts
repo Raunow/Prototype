@@ -12,21 +12,21 @@ class StateContainer {
 	}
 }
 
+
 const log = (...log: Array<any>) => parentPort.postMessage(log);
 const state = new StateContainer();
-const data = { ...workerData }
-const params = [
-	log,
-	state,
-	data
-];
+const imports = workerData.import.map(lib => require(lib));
 
-readFile(join(__dirname, '../..', `/tasks/${data.file}.js`), (err, buffer) => {
-	if (err) throw err;
-
-	let callable = new Function('log', 'state', 'data', buffer.toString())
+let path = join(__dirname, '../..', `/tasks/${workerData.file}.js`);
+readFile(path, (err, buffer) => {
+	if (err) {
+		if (err.code === 'ENOENT') err.path = "Task doesn't exist";
+		throw err;
+	}
+	let callable = new Function('log', 'state', 'data', ...workerData.import, buffer.toString())
+	delete workerData.require;
 	try {
-		callable(...params);
+		callable(log, state, workerData.data, ...imports);
 	} catch (error) {
 		log(error)
 	}
