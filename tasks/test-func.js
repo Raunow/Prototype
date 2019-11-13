@@ -1,11 +1,9 @@
-const { workerData, parentPort } = require('worker_threads')
-
 let rnd = (Math.round(Math.random() * 2));
-console.log(workerData)
+log(data);
 
 if (rnd === 1) {
-	parentPort.postMessage(`${workerData.name} ${workerData.lname}`);
+	log(`${data.name} ${data.lname}`);
 } else {
-	parentPort.postMessage(`${workerData.lname} ${workerData.name}`);
+	log(`${data.lname} ${data.name}`);
 }
 

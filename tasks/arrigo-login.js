@@ -1,41 +1,34 @@
-const { workerData, parentPort } = require('worker_threads')
 const { request } = require('https');
 
-try {
-
-	let req = request({
-		protocol: 'https:',
-		hostname: 'arrigo.rssoftware.se',
-		port: 443,
-		path: '/api/login',
-		method: 'POST',
-		headers: {
-			Accept: 'application/json',
-			'Content-Type': 'application/json'
-		}
-	},
-		(resp) => {
-			let data = '';
-			resp.on('data', (chunk) => {
-				data += chunk;
-			});
-			resp.on('end', () => {
-				parentPort.postMessage(data);
-			});
+let req = request({
+	protocol: 'https:',
+	hostname: 'arrigo.rssoftware.se',
+	port: 443,
+	path: '/api/login',
+	method: 'POST',
+	headers: {
+		Accept: 'application/json',
+		'Content-Type': 'application/json'
+	}
+},
+	(resp) => {
+		let data = '';
+		resp.on('data', (chunk) => {
+			data += chunk;
 		});
-
-	req.on("error", (err) => {
-		parentPort.postMessage(err);
+		resp.on('end', () => {
+			log(data);
+		});
 	});
 
-	req.write(JSON.stringify({
-		account: workerData.account,
-		username: workerData.username,
-		password: workerData.password
-	}));
+req.on("error", (err) => {
+	log(err);
+});
 
-	req.end();
+req.write(JSON.stringify({
+	account: data.account,
+	username: data.username,
+	password: data.password
+}));
 
-} catch (error) {
-	parentPort.postMessage(error)
-}
+req.end();
