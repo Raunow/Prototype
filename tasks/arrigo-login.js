@@ -1,6 +1,4 @@
-const { request } = require('https');
-
-let req = request({
+let req = https.request({
 	protocol: 'https:',
 	hostname: 'arrigo.rssoftware.se',
 	port: 443,
