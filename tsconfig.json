@@ -9,7 +9,7 @@
 			"esnext.asynciterable"
 		],
 		"outDir": "dist/",
-		"sourceMap": true,
+		"inlineSourceMap": true,
 		"preserveConstEnums": true,
 		"allowSyntheticDefaultImports": true,
 		"removeComments": false,
