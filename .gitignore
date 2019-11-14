@@ -46,3 +46,4 @@ typings/
 dist/
 acfiles
 package-lock.json
+secret.json
