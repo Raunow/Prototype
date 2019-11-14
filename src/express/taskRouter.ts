@@ -2,7 +2,8 @@ import { json } from 'body-parser';
 import { Request, Response, Router } from 'express';
 import { readFile, unlink, writeFile } from 'fs';
 import { join } from 'path';
-import { startWorker } from '../TaskRunner/TaskRunner';
+import { assignWorker } from '../TaskRunner/TaskRunner';
+import { TaskOptions } from '../TaskRunner/worker';
 import { RespondHTTP } from './response';
 
 class TaskController {
@@ -31,16 +32,20 @@ class TaskController {
 	}
 
 	POST({ params, body }: Request, res: Response) {
-		startWorker(params.name, body).then((result) => {
-			RespondHTTP(res, 200, result);
-		}, (err) => {
-			console.log(err);
-			let resp;
-			if (err.Error) {
-				err.Error = err.Error.toString();
+		assignWorker({
+			imports: body.imports,
+			filename: params.name,
+			context: body.context
+		} as TaskOptions, (err, result) => {
+			if (err) {
+				console.log(err);
+				RespondHTTP(res, 200, err);
+				return;
 			}
-			RespondHTTP(res, 200, err);
-		});
+
+			RespondHTTP(res, 200, result);
+			return;
+		})
 	}
 
 	DELETE({ params }: Request, res: Response) {

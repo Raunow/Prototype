@@ -1,7 +1,13 @@
 import { readFile } from 'fs';
 import { join } from 'path';
-import { parentPort, workerData } from 'worker_threads';
+import { parentPort } from 'worker_threads';
 
+
+export interface TaskOptions {
+	imports: Array<string>;
+	filename: string;
+	context: {};
+}
 class StateContainer {
 	redis = 'Redis instance';
 	get() {
@@ -11,26 +17,42 @@ class StateContainer {
 		return true;
 	}
 }
+function validateImports({ imports }: TaskOptions) {
+	if (!imports) imports = [];
 
-if (!workerData.import) {
-	workerData.import = [];
+	imports = imports.filter((value) => !['fs', 'os'].includes(value))
+	return imports.map(lib => require(lib));
 }
 
-const log = (...log: Array<any>) => parentPort.postMessage(log);
+let messages = [];
+const log = (log: any) => messages.push(log);
 const state = new StateContainer();
-let imports = workerData.import.map(lib => require(lib));
 
-let path = join(__dirname, '../..', `/tasks/${workerData.file}.js`);
-readFile(path, (err, buffer) => {
-	if (err) {
-		if (err.code === 'ENOENT') err.path = "Task doesn't exist";
-		throw err;
-	}
-	let callable = new Function('log', 'state', 'data', ...workerData.import, buffer.toString())
-	delete workerData.require;
-	try {
-		callable(log, state, workerData.data, ...imports);
-	} catch (error) {
-		log(error)
-	}
+parentPort.on('message', (task: TaskOptions) => {
+	let imports = validateImports(task);
+	let path = join(__dirname, '../..', `/tasks/${task.filename}.js`);
+
+	readFile(path, (err, buffer) => {
+		if (err) {
+			if (err.code === 'ENOENT') err.path = "Task doesn't exist";
+			throw err;
+		}
+
+		let func = new Function('log', 'state', 'context', ...task.imports, buffer.toString());
+
+		try {
+			func(log, state, task.context, ...imports);
+		} catch (error) {
+			log(error);
+		} finally {
+			parentPort.postMessage(messages);
+			messages = [];
+		}
+	});
 });
+
+
+
+
+
+
