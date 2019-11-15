@@ -2,8 +2,7 @@ import { json } from 'body-parser';
 import { Request, Response, Router } from 'express';
 import { readFile, unlink, writeFile } from 'fs';
 import { join } from 'path';
-import { assignWorker } from '../TaskRunner/TaskRunner';
-import { TaskOptions } from '../TaskRunner/worker';
+import { workerPool } from '../index';
 import { RespondHTTP } from './response';
 
 class TaskController {
@@ -32,20 +31,20 @@ class TaskController {
 	}
 
 	POST({ params, body }: Request, res: Response) {
-		assignWorker({
-			imports: body.imports,
-			filename: params.name,
-			context: body.context
-		} as TaskOptions, (err, result) => {
+		workerPool.run(() => {
+			return {
+				imports: body.imports,
+				filename: params.name,
+				context: body.context
+			}
+		}, (err, result) => {
 			if (err) {
 				console.log(err);
-				RespondHTTP(res, 200, err);
-				return;
+				RespondHTTP(res, 500, 'Error: Task not present.');
+			} else {
+				RespondHTTP(res, 200, result);
 			}
-
-			RespondHTTP(res, 200, result);
-			return;
-		})
+		});
 	}
 
 	DELETE({ params }: Request, res: Response) {

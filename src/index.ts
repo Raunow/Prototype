@@ -1,8 +1,10 @@
 import { createExpress } from './express/app';
-import { startWorker } from './TaskRunner/TaskRunner';
+import { WorkerPool } from './workers/WorkerPool';
+
+export const workerPool = new WorkerPool(`${__dirname}\\workers\\worker.js`, 4);
 
 async function main() {
-	startWorker();
+	//startWorker();
 
 	let app = createExpress(PORT);
 
