@@ -1,22 +1,21 @@
 import { Worker, WorkerOptions } from 'worker_threads';
-type QueueCallback<N> = (err: any, result?: N) => void;
-export type workerCallback<N> = (err: any, result?: N) => N;
+export type workerCallback = (err: any, result?: any) => void;
 
-interface QueueItem<T, N> {
-	callback: QueueCallback<N>;
-	getData: () => T;
+interface QueueItem {
+	callback: workerCallback;
+	getData: () => any;
 }
 
-export class WorkerPool<T, N> {
+export class WorkerPool {
 	private options: WorkerOptions = { stderr: true, stdout: true, stdin: false };
-	private queue: Array<QueueItem<T, N>> = [];
+	private queue: Array<QueueItem> = [];
 	private workersByID: { [key: number]: Worker } = {};
 	private activeWorkersByID: Array<boolean> = []
 
 	public constructor(public workerPath: string, public numberOfThreads: number, public respawn: boolean = false) {
 		if (this.numberOfThreads < 1) return null;
 
-		this.init()
+		this.init();
 	}
 
 	private init() {
@@ -26,19 +25,11 @@ export class WorkerPool<T, N> {
 		}
 	}
 
-	public run(getData: () => T, cb: workerCallback<N>) {
+	public run(getData: () => any, callback: workerCallback) {
 		const availableWorkerID = this.getInactiveWorker();
+		const queueItem: QueueItem = { getData, callback };
 
-		const queueItem: QueueItem<T, N> = {
-			getData,
-			callback: (error, result) => {
-				if (error) cb(error);
-
-				return cb(null, result);
-			}
-		};
-
-		if (availableWorkerID === -1) {
+		if (!availableWorkerID) {
 			this.queue.push(queueItem);
 			return null;
 		}
@@ -52,14 +43,14 @@ export class WorkerPool<T, N> {
 				return i;
 		}
 
-		return -1;
+		return NaN;
 	}
 
-	private async runWorker(workerID: number, queueItem: QueueItem<T, N>) {
+	private async runWorker(workerID: number, queueItem: QueueItem) {
 		this.activeWorkersByID[workerID] = true;
 		const worker = this.workersByID[workerID];
 
-		const messageCallback = (result: N) => {
+		const messageCallback = (result: any) => {
 			queueItem.callback(null, result);
 			cleanUp();
 		}
@@ -69,7 +60,13 @@ export class WorkerPool<T, N> {
 		}
 		const exitCallback = (exitCode: number) => {
 			queueItem.callback(new Error(`Task exited with error code: ${exitCode}`));
-			cleanUp();
+			if (this.respawn) {
+				this.workersByID[workerID].unref();
+				this.workersByID[workerID] = new Worker(this.workerPath, this.options);
+				cleanUp();
+			} else {
+				this.workersByID
+			}
 		}
 
 		const cleanUp = () => {
