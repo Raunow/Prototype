@@ -38,7 +38,7 @@ parentPort.on('message', (task: TaskOptions) => {
 			throw err;
 		}
 
-		let func = new Function('log', 'state', 'context', ...task.imports, buffer.toString());
+		let func = new Function('log', 'state', 'ctx', ...task.imports, buffer.toString());
 
 		try {
 			func(log, state, task.context, ...imports);
@@ -50,9 +50,5 @@ parentPort.on('message', (task: TaskOptions) => {
 		}
 	});
 });
-
-
-
-
 
 
