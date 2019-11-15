@@ -24,9 +24,9 @@ req.on("error", (err) => {
 });
 
 req.write(JSON.stringify({
-	account: context.account,
-	username: context.username,
-	password: context.password
+	account: ctx.account,
+	username: ctx.username,
+	password: ctx.password
 }));
 
 req.end();

@@ -1,9 +1,9 @@
 let rnd = (Math.round(Math.random() * 2));
-log(context);
+log(ctx);
 
 if (rnd === 1) {
-	log(`${context.name} ${context.lname}`);
+	log(`${ctx.name} ${ctx.lname}`);
 } else {
-	log(`${context.lname} ${context.name}`);
+	log(`${ctx.lname} ${ctx.name}`);
 }
 
