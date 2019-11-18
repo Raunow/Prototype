@@ -1,4 +1,4 @@
-let req = https.request({
+let options = {
 	protocol: 'https:',
 	hostname: 'arrigo.rssoftware.se',
 	port: 443,
@@ -8,25 +8,29 @@ let req = https.request({
 		Accept: 'application/json',
 		'Content-Type': 'application/json'
 	}
-},
-	(resp) => {
-		let data = '';
-		resp.on('data', (chunk) => {
-			data += chunk;
+}
+
+return new Promise((resolve, reject) => {
+	let req = https.request(options,
+		(resp) => {
+			let data = '';
+			resp.on('data', (chunk) => {
+				data += chunk;
+			});
+			resp.on('end', () => {
+				resolve(JSON.parse(data))
+			});
 		});
-		resp.on('end', () => {
-			log(data);
-		});
+
+	req.on("error", (err) => {
+		reject(err)
 	});
 
-req.on("error", (err) => {
-	log(err);
+	req.write(JSON.stringify({
+		account: ctx.account,
+		username: ctx.username,
+		password: ctx.password
+	}));
+
+	req.end();
 });
-
-req.write(JSON.stringify({
-	account: ctx.account,
-	username: ctx.username,
-	password: ctx.password
-}));
-
-req.end();
