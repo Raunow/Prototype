@@ -17,36 +17,45 @@ class StateContainer {
 		return true;
 	}
 }
-function validateImports({ imports }: TaskOptions) {
+function validateImports(imports: Array<string>) {
 	if (!imports) imports = [];
 
-	imports = imports.filter((value) => !['fs', 'os'].includes(value))
-	return imports.map(lib => require(lib));
+	imports = imports.filter((value) => !['fs', 'os'].includes(value));
+	return {
+		imports,
+		libs: imports.map(lib => require(lib))
+	}
 }
 
-let messages = [];
-const log = (log: any) => messages.push(log);
+let results: any = {
+	logs: [],
+	return: null
+};
+const log = (log: any) => results.logs.push(log);
 const state = new StateContainer();
 
 parentPort.on('message', (task: TaskOptions) => {
-	let imports = validateImports(task);
+	let { imports, libs } = validateImports(task.imports);
 	let path = join(__dirname, '../..', `/tasks/${task.filename}.js`);
 
-	readFile(path, (err, buffer) => {
+	readFile(path, async (err, buffer) => {
 		if (err) {
 			if (err.code === 'ENOENT') err.path = "Task doesn't exist";
 			throw err;
 		}
 
-		let func = new Function('log', 'state', 'ctx', ...task.imports, buffer.toString());
+		let func = new Function('log', 'state', 'ctx', ...imports, buffer.toString());
 
 		try {
-			func(log, state, task.context, ...imports);
+			results.return = await func(log, state, task.context, ...libs);
 		} catch (error) {
-			log(error);
+			results.error = error;
 		} finally {
-			parentPort.postMessage(messages);
-			messages = [];
+			parentPort.postMessage(results);
+			results = {
+				logs: [],
+				return: null
+			};
 		}
 	});
 });
