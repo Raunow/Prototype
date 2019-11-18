@@ -4,10 +4,10 @@ afterAll(() => {
 	workerPool.stop();
 })
 
-test('Task: blahblah', () => {
+test('Task: log-stuff', () => {
 	let options = {
 		context: { test: 'test', blah: 'blah' },
-		filename: 'blahblah'
+		filename: 'log-stuff'
 	}
 
 	workerPool.run(() => options, (err, result) => {
