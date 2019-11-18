@@ -29,7 +29,7 @@ export class WorkerPool {
 		const availableWorkerID = this.getInactiveWorker();
 		const queueItem: QueueItem = { getData, callback };
 
-		if (!availableWorkerID) {
+		if (availableWorkerID === NaN) {
 			this.queue.push(queueItem);
 			return null;
 		}

@@ -35,7 +35,7 @@ class TaskController {
 			return {
 				imports: body.imports,
 				filename: params.name,
-				context: body.context
+				context: body.context || {}
 			}
 		}, (err, result) => {
 			if (err) {
