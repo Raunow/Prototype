@@ -86,4 +86,15 @@ export class WorkerPool {
 
 		worker.postMessage(await queueItem.getData());
 	}
+
+	public stop() {
+		for (let i = 0; i < this.numberOfThreads; i++) {
+			const worker = this.workersByID[i];
+			worker.removeAllListeners('message');
+			worker.removeAllListeners('error');
+			worker.removeAllListeners('exit');
+
+			worker.unref();
+		}
+	}
 }

@@ -31,20 +31,19 @@ class TaskController {
 	}
 
 	POST({ params, body }: Request, res: Response) {
-		workerPool.run(() => {
-			return {
-				imports: body.imports,
-				filename: params.name,
-				context: body.context || {}
-			}
-		}, (err, result) => {
-			if (err) {
-				console.log(err);
-				RespondHTTP(res, 500, 'Error: Task not present.');
-			} else {
-				RespondHTTP(res, 200, result);
-			}
-		});
+		workerPool.run(() => ({
+			imports: body.imports,
+			filename: params.name,
+			context: body.context || {}
+		}),
+			(err, result) => {
+				if (err) {
+					console.log(err);
+					RespondHTTP(res, 500, 'Error: Task not present.');
+				} else {
+					RespondHTTP(res, 200, result);
+				}
+			});
 	}
 
 	DELETE({ params }: Request, res: Response) {
