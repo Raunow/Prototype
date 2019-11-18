@@ -2,8 +2,7 @@ let rnd = (Math.round(Math.random() * 2));
 log(ctx);
 
 if (rnd === 1) {
-	log(`${ctx.name} ${ctx.lname}`);
+	return `${ctx.name} ${ctx.lname}`;
 } else {
-	log(`${ctx.lname} ${ctx.name}`);
+	return `${ctx.lname} ${ctx.name}`;
 }
-
