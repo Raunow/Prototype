@@ -1,9 +1,9 @@
 {
-  "type": "gqlQuery",
-  "values": {
-    "uid": {
-      "icon": "string",
-      "type": "string"
-    }
-  }
+	"type": "gqlQuery",
+	"values": {
+		"uid": {
+			"icon": "string",
+			"type": "string"
+		}
+	}
 }

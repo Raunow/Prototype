@@ -1,13 +1,22 @@
 {
-  "type": "AddN",
-  "inputs": {
-    "I1": { "title": "Input 1", "default": null },
-    "I2": { "title": "Input 2" },
-    "I3": { "title": "Input 3" }
-  },
-  "constants": {
-    "factor": 3
-  },
-  "packages": ["http"],
-  "code": "./AddN.js"
+	"type": "AddN",
+	"inputs": {
+		"I1": {
+			"title": "Input 1",
+			"default": null
+		},
+		"I2": {
+			"title": "Input 2"
+		},
+		"I3": {
+			"title": "Input 3"
+		}
+	},
+	"constants": {
+		"factor": 3
+	},
+	"packages": [
+		"http"
+	],
+	"code": "./AddN.js"
 }

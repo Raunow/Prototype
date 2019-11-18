@@ -1,9 +1,9 @@
 {
-  "type": "gqlMutation",
-  "values": {
-    "uid": {
-      "icon": "string",
-      "type": "string"
-    }
-  }
+	"type": "gqlMutation",
+	"values": {
+		"uid": {
+			"icon": "string",
+			"type": "string"
+		}
+	}
 }
