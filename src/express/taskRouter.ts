@@ -6,10 +6,14 @@ import { workerPool } from '../index';
 import { RespondHTTP } from './response';
 
 class TaskController {
-	private resolvePath = (filename: string) => join(__dirname, '../..', `/tasks/${filename}.js`);
+	private resolvePath = (filename: string) => join(__dirname, '../..', `/tasks/${filename}.json`);
 
 	PUT({ params, body }: Request, res: Response) {
-		writeFile(this.resolvePath(params.name), body.task, (err) => {
+		writeFile(this.resolvePath(params.name), JSON.stringify({
+			name: params.name,
+			task: body.task,
+			imports: body.imports || []
+		}), (err) => {
 			if (err) {
 				console.log(err);
 				RespondHTTP(res, 500, err);
@@ -25,14 +29,13 @@ class TaskController {
 				console.log(err);
 				RespondHTTP(res, 500, err);
 			} else {
-				RespondHTTP(res, 200, data.toString());
+				RespondHTTP(res, 200, JSON.parse(data.toString()));
 			}
 		});
 	}
 
 	POST({ params, body }: Request, res: Response) {
 		workerPool.run(() => ({
-			imports: body.imports,
 			filename: params.name,
 			context: body.context || {}
 		}),
@@ -41,11 +44,14 @@ class TaskController {
 					console.log(err);
 					RespondHTTP(res, 500, 'Error: Task not present.');
 				} else {
+					if (result.error) {
+						console.log(result)
+						result.error = `${result.error.name}: ${result.error.message}`
+					}
 					RespondHTTP(res, 200, result);
 				}
 			});
 	}
-
 	DELETE({ params }: Request, res: Response) {
 		unlink(this.resolvePath(params.name), (err) => {
 			if (err) {

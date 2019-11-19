@@ -27,33 +27,32 @@ function validateImports(imports: Array<string>) {
 	}
 }
 
-let results: any = {
-	logs: [],
-	return: null
+let results: any = { return: null };
+const log = (log: any) => {
+	if (!results.logs) results.logs = [];
+	results.logs.push(log);
 };
-const log = (log: any) => results.logs.push(log);
+
 const state = new StateContainer();
 
-parentPort.on('message', (task: TaskOptions) => {
-	let { imports, libs } = validateImports(task.imports);
-	let path = join(__dirname, '../..', `/tasks/${task.filename}.js`);
-
+parentPort.on('message', (options: TaskOptions) => {
+	let path = join(__dirname, '../..', `/tasks/${options.filename}.json`);
 	readFile(path, async (err, buffer) => {
 		if (err) {
-			if (err.code === 'ENOENT') err.path = "Task doesn't exist";
 			throw err;
 		}
+		const taskObject = JSON.parse(buffer.toString())
+		let { imports, libs } = validateImports(taskObject.imports);
 
-		let func = new Function('log', 'state', 'ctx', ...imports, buffer.toString());
+		let func = new Function('log', 'state', 'ctx', ...imports, taskObject.task);
 
 		try {
-			results.return = await func(log, state, task.context, ...libs);
+			results.return = await func(log, state, options.context, ...libs);
 		} catch (error) {
 			results.error = error;
 		} finally {
 			parentPort.postMessage(results);
 			results = {
-				logs: [],
 				return: null
 			};
 		}

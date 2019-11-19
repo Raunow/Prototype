@@ -1,0 +1,5 @@
+{
+	"name": "log-stuff",
+	"task": "log(ctx);\nlog(state.get());\nlog(\"uptime: \" + process.uptime());\nreturn true;",
+	"imports": []
+}

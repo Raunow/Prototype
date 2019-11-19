@@ -8,7 +8,7 @@ let options = {
 		Accept: 'application/json',
 		'Content-Type': 'application/json'
 	}
-}
+};
 
 return new Promise((resolve, reject) => {
 	let req = https.request(options,
@@ -22,7 +22,7 @@ return new Promise((resolve, reject) => {
 			});
 		});
 
-	req.on("error", (err) => {
+	req.on('error', (err) => {
 		reject(err)
 	});
 
