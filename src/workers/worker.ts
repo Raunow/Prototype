@@ -4,7 +4,6 @@ import { parentPort } from 'worker_threads';
 
 
 export interface TaskOptions {
-	imports: Array<string>;
 	filename: string;
 	context: {};
 }

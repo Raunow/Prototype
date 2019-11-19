@@ -33,7 +33,6 @@ test('Task: test-func', () => {
 
 test('Task: arrigo-login', async () => {
 	let options = {
-		imports: ['https'],
 		context: { account: "api_develop", username: "steffen", password: 'steffen123' },
 		filename: 'test-func'
 	}
