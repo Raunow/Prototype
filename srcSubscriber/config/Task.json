@@ -18,5 +18,5 @@
 	"packages": [
 		"http"
 	],
-	"code": "./AddN.js"
+	"code": "AddN"
 }
