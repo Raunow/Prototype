@@ -1,0 +1,17 @@
+{
+	"name": "subscriber",
+	"version": "1.0.0",
+	"main": "index.ts",
+	"license": "MIT",
+	"scripts": {
+		"start": "tsnd --respawn --cls src/index.ts"
+	},
+	"dependencies": {
+		"ioredis": "^4.14.1"
+	},
+	"devDependencies": {
+		"@types/ioredis": "^4.0.19",
+		"ts-node-dev": "^1.0.0-pre.44",
+		"typescript": "^3.7.2"
+	}
+}
