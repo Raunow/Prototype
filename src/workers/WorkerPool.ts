@@ -74,8 +74,10 @@ export class WorkerPool {
 			worker.removeAllListeners('exit');
 		}
 		const next = () => {
-			this.activeWorkersByID[workerID] = false;
-			if (!this.queue.length) return;
+			if (!this.queue.length) {
+				this.activeWorkersByID[workerID] = false;
+				return;
+			}
 
 			this.runWorker(workerID, this.queue.shift());
 		}
