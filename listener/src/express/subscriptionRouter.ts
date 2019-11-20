@@ -13,10 +13,6 @@ class SubscriptionController {
 
 	}
 
-	POST(req: Request, res: Response) {
-
-	}
-
 	DELETE({ params }: Request, res: Response) {
 
 	}
@@ -34,7 +30,6 @@ export function subscriptionRouter(...middlewares: Router[]) {
 	router.use(path, json())
 	router.put(path, (req, res) => subscriber.PUT(req, res));
 	router.get(path, (req, res) => subscriber.GET(req, res));
-	router.post(path, (req, res) => subscriber.POST(req, res));
 	router.delete(path, (req, res) => subscriber.DELETE(req, res));
 
 	return router;
