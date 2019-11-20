@@ -42,10 +42,9 @@ class TaskController {
 			(err, result) => {
 				if (err) {
 					console.log(err);
-					RespondHTTP(res, 500, 'Error: Task not present.');
+					RespondHTTP(res, 500, err.message);
 				} else {
 					if (result.error) {
-						console.log(result)
 						result.error = `${result.error.name}: ${result.error.message}`
 					}
 					RespondHTTP(res, 200, result);
