@@ -31,7 +31,7 @@ export class WorkerPool {
 
 		if (availableWorkerID === NaN) {
 			this.queue.push(queueItem);
-			return null;
+			return;
 		}
 
 		this.runWorker(availableWorkerID, queueItem);
@@ -39,8 +39,7 @@ export class WorkerPool {
 
 	private getInactiveWorker() {
 		for (let i = 0; i < this.numberOfThreads; i++) {
-			if (!this.activeWorkersByID[i])
-				return i;
+			if (!this.activeWorkersByID[i]) return i;
 		}
 
 		return NaN;
@@ -52,12 +51,12 @@ export class WorkerPool {
 
 		const messageCallback = (result: any) => {
 			queueItem.callback(null, result);
-			worker.removeAllListeners();
+			worker.removeAllListeners('error');
 			next();
 		}
 		const errorCallback = (error: any) => {
 			queueItem.callback(error);
-			worker.removeAllListeners();
+			worker.removeAllListeners('message');
 
 			if (this.respawn) {
 				worker.unref();
