@@ -37,18 +37,20 @@ const state = new StateContainer();
 parentPort.on('message', (options: TaskOptions) => {
 	let path = join(__dirname, '../..', `/tasks/${options.filename}.json`);
 	readFile(path, async (err, buffer) => {
-		if (err) {
-			throw err;
-		}
-		const taskObject = JSON.parse(buffer.toString())
-		let { imports, libs } = validateImports(taskObject.imports);
-
-		let func = new Function('log', 'state', 'ctx', ...imports, taskObject.task);
-
 		try {
-			results.return = await func(log, state, options.context, ...libs);
+			if (err) {
+				err.message = "Task does not exist";
+				throw err;
+			}
+
+			const taskObject = JSON.parse(buffer.toString())
+			let { imports, libs } = validateImports(taskObject.imports);
+
+			let func = new Function('log', 'state', 'ctx', ...imports, taskObject.task);
+
+			results.value = await func(log, state, options.context, ...libs);
 		} catch (error) {
-			results.error = JSON.parse(JSON.stringify(err, Object.getOwnPropertyNames(err)));
+			results.error = error;
 		} finally {
 			parentPort.postMessage(results);
 			results = {};

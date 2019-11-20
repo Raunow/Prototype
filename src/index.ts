@@ -1,7 +1,7 @@
 import { createExpress } from './express/app';
 import { WorkerPool } from './workers/WorkerPool';
 
-export const workerPool = new WorkerPool(`${__dirname}\\workers\\worker.js`, 4);
+export const workerPool = new WorkerPool(`${__dirname}\\workers\\worker.js`, 4, true);
 
 async function main() {
 	let app = createExpress(PORT);

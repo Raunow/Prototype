@@ -9,7 +9,7 @@ interface QueueItem {
 export class WorkerPool {
 	private options: WorkerOptions = { stderr: true, stdout: true, stdin: false };
 	private queue: Array<QueueItem> = [];
-	private workersByID: { [key: number]: Worker } = {};
+	private workersByID: Array<Worker> = [];
 	private activeWorkersByID: Array<boolean> = []
 
 	public constructor(public workerPath: string, public numberOfThreads: number, public respawn: boolean = false) {
@@ -48,41 +48,40 @@ export class WorkerPool {
 
 	private async runWorker(workerID: number, queueItem: QueueItem) {
 		this.activeWorkersByID[workerID] = true;
-		const worker = this.workersByID[workerID];
+		let worker = this.workersByID[workerID];
 
 		const messageCallback = (result: any) => {
 			queueItem.callback(null, result);
 			cleanUp();
+			next();
 		}
 		const errorCallback = (error: any) => {
 			queueItem.callback(error);
 			cleanUp();
-		}
-		const exitCallback = (exitCode: number) => {
-			queueItem.callback(new Error(`Task exited with error code: ${exitCode}`));
 			if (this.respawn) {
-				this.workersByID[workerID].unref();
-				this.workersByID[workerID] = new Worker(this.workerPath, this.options);
-				cleanUp();
+				worker.unref();
+				this.workersByID[workerID] = worker = new Worker(this.workerPath, this.options);
+				next();
 			} else {
-				this.workersByID
+				this.workersByID.splice(workerID, 1);
+				this.activeWorkersByID.splice(workerID, 1);
+				this.numberOfThreads--;
 			}
 		}
-
 		const cleanUp = () => {
 			worker.removeAllListeners('message');
 			worker.removeAllListeners('error');
 			worker.removeAllListeners('exit');
-
+		}
+		const next = () => {
 			this.activeWorkersByID[workerID] = false;
-			if (!this.queue.length) return null;
+			if (!this.queue.length) return;
 
 			this.runWorker(workerID, this.queue.shift());
 		}
 
 		worker.once('message', messageCallback);
 		worker.once('error', errorCallback);
-		worker.once('exit', exitCallback);
 
 		worker.postMessage(await queueItem.getData());
 	}
