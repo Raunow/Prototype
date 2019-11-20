@@ -52,12 +52,13 @@ export class WorkerPool {
 
 		const messageCallback = (result: any) => {
 			queueItem.callback(null, result);
-			cleanUp();
+			worker.removeAllListeners();
 			next();
 		}
 		const errorCallback = (error: any) => {
 			queueItem.callback(error);
-			cleanUp();
+			worker.removeAllListeners();
+
 			if (this.respawn) {
 				worker.unref();
 				this.workersByID[workerID] = worker = new Worker(this.workerPath, this.options);
@@ -67,11 +68,6 @@ export class WorkerPool {
 				this.activeWorkersByID.splice(workerID, 1);
 				this.numberOfThreads--;
 			}
-		}
-		const cleanUp = () => {
-			worker.removeAllListeners('message');
-			worker.removeAllListeners('error');
-			worker.removeAllListeners('exit');
 		}
 		const next = () => {
 			if (!this.queue.length) {
@@ -91,9 +87,7 @@ export class WorkerPool {
 	public stop() {
 		for (let i = 0; i < this.numberOfThreads; i++) {
 			const worker = this.workersByID[i];
-			worker.removeAllListeners('message');
-			worker.removeAllListeners('error');
-			worker.removeAllListeners('exit');
+			worker.removeAllListeners();
 
 			worker.unref();
 		}
