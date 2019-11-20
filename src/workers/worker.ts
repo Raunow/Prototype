@@ -26,7 +26,7 @@ function validateImports(imports: Array<string>) {
 	}
 }
 
-let results: any = { return: null };
+let results: any = {};
 const log = (log: any) => {
 	if (!results.logs) results.logs = [];
 	results.logs.push(log);
@@ -48,12 +48,10 @@ parentPort.on('message', (options: TaskOptions) => {
 		try {
 			results.return = await func(log, state, options.context, ...libs);
 		} catch (error) {
-			results.error = error;
+			results.error = JSON.parse(JSON.stringify(err, Object.getOwnPropertyNames(err)));
 		} finally {
 			parentPort.postMessage(results);
-			results = {
-				return: null
-			};
+			results = {};
 		}
 	});
 });
