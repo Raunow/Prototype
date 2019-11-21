@@ -30,7 +30,7 @@ test('Task: test-func', done => {
 		expect(err).toBeNull();
 		expect(result.error).toBeUndefined();
 		expect(result.logs).toBeUndefined();
-		expect(result.value === `${options.context.lname} ${options.context.name}` || result.value === `${options.context.name} ${options.context.lname}`).toBe(true);
+		expect(result.value === `${options.context.lname} ${options.context.name}` || result.value === `${options.context.name} ${options.context.lname}`).toBeTruthy();
 		done();
 	});
 });
