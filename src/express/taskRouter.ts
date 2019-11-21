@@ -9,11 +9,8 @@ class TaskController {
 	private resolvePath = (filename: string) => join(__dirname, '../..', `/tasks/${filename}.json`);
 
 	PUT({ params, body }: Request, res: Response) {
-		writeFile(this.resolvePath(params.name), JSON.stringify({
-			name: params.name,
-			task: body.task,
-			imports: body.imports || []
-		}), (err) => {
+		body.name = params.name;
+		writeFile(this.resolvePath(params.name), JSON.stringify(body, null, '\t'), (err) => {
 			if (err) {
 				console.log(err);
 				RespondHTTP(res, 500, err);
