@@ -1,8 +1,8 @@
 {
 	"topic": "ABSOLUTE_TOPIC",
+	"runAs": "postman",
 	"subscription": {
 		"type": "CODE_BLOCK",
 		"value": "RELATIVE_TOPIC/BLOCK_UID"
-	},
-	"account": "api_develop"
+	}
 }

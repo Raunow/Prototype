@@ -8,13 +8,11 @@ class SubscriptionController {
 	private resolvePath = (account: string) => join(__dirname, '../..', `/accounts/${account}.json`);
 
 	PUT({ params, body }: Request, res: Response) {
-		body.account = params.account;
 		writeFile(this.resolvePath(params.account), JSON.stringify(body, null, '\t'), (err) => {
 			if (err) {
 				console.log(err);
 				RespondHTTP(res, 500, err.message);
 			} else {
-
 				RespondHTTP(res, 200, 'Subscription saved.');
 			}
 		})
