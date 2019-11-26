@@ -26,6 +26,9 @@
 				"UID": [
 					"./T1"
 				]
+			},
+			"constants": {
+				"query": "query folderQuery($UID:string){ Folder(id: $UID) {name}}"
 			}
 		},
 		"M2": {
@@ -34,6 +37,9 @@
 				"UID": [
 					"./T2"
 				]
+			},
+			"constants": {
+				"query": "query folderQuery($UID:string){ Folder(id: $UID) {name}}"
 			}
 		},
 		"M3": {
@@ -42,6 +48,9 @@
 				"UID": [
 					"./T3"
 				]
+			},
+			"constants": {
+				"query": "query folderQuery($UID:string){ Folder(id: $UID) {name}}"
 			}
 		},
 		"ADD": {
@@ -61,9 +70,15 @@
 		"Mutate1": {
 			"type": "GQLMutation",
 			"inputs": {
-				"UID": [
+				"I1": [
 					"./ADD"
 				]
+			},
+			"constants": {
+				"mutation": "mutation myMutate($UID: string, $Value) { Meter(id: $UID) { Update(data: {Area: $Value}) {  }} }"
+			},
+			"variables": {
+				"UID": ""
 			}
 		}
 	},
