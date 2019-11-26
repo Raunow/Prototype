@@ -1,0 +1,72 @@
+{
+	"type": "AddMeters",
+	"inputs": null,
+	"children": {
+		"T1": {
+			"type": "trigger.block.json",
+			"values": {
+				"topic": "UIDofMeterTopic1"
+			}
+		},
+		"T2": {
+			"type": "trigger.block.json",
+			"values": {
+				"topic": "UIDofMeterTopic2"
+			}
+		},
+		"T3": {
+			"type": "trigger.block.json",
+			"values": {
+				"topic": "UIDofMeterTopic3"
+			}
+		},
+		"M1": {
+			"type": "GQLQuery.block.json",
+			"inputs": {
+				"UID": [
+					"./T1"
+				]
+			}
+		},
+		"M2": {
+			"type": "GQLQuery.block.json",
+			"inputs": {
+				"UID": [
+					"./T2"
+				]
+			}
+		},
+		"M3": {
+			"type": "GQLQuery.block.json",
+			"inputs": {
+				"UID": [
+					"./T3"
+				]
+			}
+		},
+		"ADD": {
+			"type": "ADDN",
+			"inputs": {
+				"I1": [
+					"./M1"
+				],
+				"I2": [
+					"./M2"
+				],
+				"I3": [
+					"./M3"
+				]
+			}
+		},
+		"Mutate1": {
+			"type": "GQLMutation",
+			"inputs": {
+				"UID": [
+					"./ADD"
+				]
+			}
+		}
+	},
+	"output": [],
+	"error": []
+}
