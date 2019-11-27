@@ -2,16 +2,16 @@
 	"type": "GQLMutation",
 	"inputs": {
 		"UID": {
-			"title": "Meter",
-			"type": "Meter"
+			"title": "namedObject",
+			"type": "nameOfType"
 		}
 	},
 	"constants": {
 		"uid": {
-			"type": "string"
+			"type": "nameOfType"
 		},
 		"query": {
-			"type": "string"
+			"type": "nameOfType"
 		}
 	}
 }

@@ -2,13 +2,13 @@
 	"type": "GQLQuery",
 	"inputs": {
 		"UID": {
-			"title": "Meter",
-			"type": "Meter"
+			"title": "namedObject",
+			"type": "nameOfType"
 		}
 	},
 	"constants": {
 		"query": {
-			"type": "string"
+			"type": "nameOfType"
 		}
 	}
 }
