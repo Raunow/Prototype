@@ -1,8 +1,9 @@
 {
-	"topic": "ABSOLUTE_TOPIC",
-	"runAs": "postman",
-	"subscription": {
-		"type": "CODE_BLOCK",
-		"value": "RELATIVE_TOPIC/BLOCK_UID"
-	}
+	"topic": "api_develop/",
+	"applications": [
+		{
+			"type": "AddMeters",
+			"user": "wjdimwfes"
+		}
+	]
 }
