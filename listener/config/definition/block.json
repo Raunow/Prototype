@@ -1,0 +1,27 @@
+{
+	"type": "string",
+	"inputs": [
+		"topics"
+	],
+	"children": {
+		"CH1": {
+			"type": "trigger.block.json",
+			"values": {
+				"topic": "uidTopic"
+			}
+		},
+		"CH2": {
+			"type": "GQLQuery.block.json",
+			"inputs": {
+				"topic": "./CH1"
+			}
+		}
+	},
+	"output": [
+		"CH2"
+	],
+	"error": [
+		"CH1/error",
+		"CH2/error"
+	]
+}
