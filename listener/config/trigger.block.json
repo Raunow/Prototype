@@ -1,0 +1,9 @@
+{
+	"type": "Trigger",
+	"values": {
+		"topic": {
+			"icon": "string",
+			"type": "string"
+		}
+	}
+}

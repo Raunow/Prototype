@@ -1,0 +1,17 @@
+{
+	"type": "GQLMutation",
+	"inputs": {
+		"UID": {
+			"title": "Meter",
+			"type": "Meter"
+		}
+	},
+	"constants": {
+		"uid": {
+			"type": "string"
+		},
+		"query": {
+			"type": "string"
+		}
+	}
+}

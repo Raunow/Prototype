@@ -1,0 +1,14 @@
+{
+	"type": "GQLQuery",
+	"inputs": {
+		"UID": {
+			"title": "Meter",
+			"type": "Meter"
+		}
+	},
+	"constants": {
+		"query": {
+			"type": "string"
+		}
+	}
+}
