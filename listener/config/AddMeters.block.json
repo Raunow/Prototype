@@ -54,7 +54,7 @@
 			}
 		},
 		"ADD": {
-			"type": "ADDN",
+			"type": "code.block.json",
 			"inputs": {
 				"I1": [
 					"./M1"
@@ -83,5 +83,9 @@
 		}
 	},
 	"output": [],
-	"error": []
+	"error": [
+		"Silent",
+		"all",
+		"specific (rel)topics"
+	]
 }
