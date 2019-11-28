@@ -1,0 +1,14 @@
+{
+	"type": "GQLQuery",
+	"inputs": {
+		"UID": {
+			"title": "namedObject",
+			"type": "nameOfType"
+		}
+	},
+	"constants": {
+		"query": {
+			"type": "nameOfType"
+		}
+	}
+}
