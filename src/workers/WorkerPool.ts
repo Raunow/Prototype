@@ -18,9 +18,9 @@ export class WorkerPool {
 		this.init();
 	}
 
-	private init() {
+	private async init() {
 		for (let i = 0; i < this.numberOfThreads; i++) {
-			this.workersByID[i] = new Worker(this.workerPath, this.options);
+			this.workersByID[i] = await new Worker(this.workerPath, this.options);
 			this.activeWorkersByID[i] = false;
 		}
 	}
@@ -77,18 +77,17 @@ export class WorkerPool {
 			this.runWorker(workerID, this.queue.shift());
 		}
 
-		worker.once('message', messageCallback);
-		worker.once('error', errorCallback);
-
-		worker.postMessage(await queueItem.getData());
+		if (worker !== undefined) {
+			worker.once('message', messageCallback);
+			worker.once('error', errorCallback);
+			worker.postMessage(await queueItem.getData());
+		}
 	}
 
 	public stop() {
-		for (let i = 0; i < this.numberOfThreads; i++) {
-			const worker = this.workersByID[i];
-			worker.removeAllListeners();
-
-			worker.unref();
+		for (let i = 0; i < this.workersByID.length; i++) {
+			this.workersByID[i].removeAllListeners().unref();
+			this.workersByID[i] = null;
 		}
 	}
 }
