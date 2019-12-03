@@ -18,9 +18,9 @@ export class WorkerPool {
 		this.init();
 	}
 
-	private async init() {
+	private init() {
 		for (let i = 0; i < this.numberOfThreads; i++) {
-			this.workersByID[i] = await new Worker(this.workerPath, this.options);
+			this.workersByID[i] = new Worker(this.workerPath, this.options);
 			this.activeWorkersByID[i] = false;
 		}
 	}
@@ -49,6 +49,11 @@ export class WorkerPool {
 		this.activeWorkersByID[workerID] = true;
 		let worker = this.workersByID[workerID];
 
+		while (worker === undefined) {
+			await new Promise((resolve) => setTimeout(() => resolve(), 100));
+			let worker = this.workersByID[workerID];
+		}
+
 		const messageCallback = (result: any) => {
 			queueItem.callback(null, result);
 			worker.removeAllListeners('error');
@@ -60,7 +65,7 @@ export class WorkerPool {
 
 			if (this.respawn) {
 				worker.unref();
-				this.workersByID[workerID] = worker = new Worker(this.workerPath, this.options);
+				worker = this.workersByID[workerID] = new Worker(this.workerPath, this.options);
 				next();
 			} else {
 				this.workersByID.splice(workerID, 1);
@@ -77,11 +82,9 @@ export class WorkerPool {
 			this.runWorker(workerID, this.queue.shift());
 		}
 
-		if (worker !== undefined) {
-			worker.once('message', messageCallback);
-			worker.once('error', errorCallback);
-			worker.postMessage(await queueItem.getData());
-		}
+		worker.once('message', messageCallback);
+		worker.once('error', errorCallback);
+		worker.postMessage(await queueItem.getData());
 	}
 
 	public stop() {
