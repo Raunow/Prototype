@@ -13,6 +13,10 @@ class SubscriptionController {
 				console.log(err);
 				RespondHTTP(res, 500, err.message);
 			} else {
+
+				// parse
+				// subscribe
+				// then respond
 				RespondHTTP(res, 200, 'Subscription saved.');
 			}
 		})

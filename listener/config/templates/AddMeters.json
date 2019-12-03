@@ -1,0 +1,93 @@
+{
+	"name": "AddMeters",
+	"inputs": null,
+	"children": {
+		"T1": {
+			"name": "trigger.block.json",
+			"inputs": {
+				"topic": [
+					"UIDofMeterTopic1"
+				]
+			}
+		},
+		"T2": {
+			"name": "trigger.block.json",
+			"inputs": {
+				"topic": [
+					"UIDofMeterTopic2"
+				]
+			}
+		},
+		"T3": {
+			"name": "trigger.block.json",
+			"inputs": {
+				"topic": [
+					"UIDofMeterTopic3"
+				]
+			}
+		},
+		"M1": {
+			"name": "GQLquery.block.json",
+			"inputs": {
+				"UID": [
+					"./T1"
+				]
+			},
+			"constants": {
+				"query": "query folderQuery($UID:string){ Folder(id: $UID) {name}}"
+			}
+		},
+		"M2": {
+			"name": "GQLquery.block.json",
+			"inputs": {
+				"UID": [
+					"./T2"
+				]
+			},
+			"constants": {
+				"ID": "./T2"
+			}
+		},
+		"M3": {
+			"name": "GQLquery.json",
+			"inputs": {
+				"UID": [
+					"./T3"
+				]
+			},
+			"constants": {
+				"ID": "./T3"
+			}
+		},
+		"ADDN": {
+			"name": "Add3.json",
+			"inputs": {
+				"I1": [
+					"./M1"
+				],
+				"I2": [
+					"./M2"
+				],
+				"I3": [
+					"./M3"
+				]
+			}
+		},
+		"Mutate1": {
+			"name": "GQLmutation.block.json",
+			"inputs": {
+				"I1": [
+					"./ADDN"
+				]
+			},
+			"constants": {
+				"mutation": "mutation myMutate($UID: string, $Value) { Meter(id: $UID) { Update(data: {Area: $Value}) {  }} }"
+			},
+			"variables": {
+				"UID": ""
+			}
+		}
+	},
+	"output": [],
+	"error": "Silent"
+}

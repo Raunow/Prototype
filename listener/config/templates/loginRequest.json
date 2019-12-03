@@ -1,0 +1,22 @@
+{
+	"name": "loginRequest",
+	"inputs": null,
+	"constants": {
+		"account": {
+			"title": "Input 1",
+			"value": "develop"
+		},
+		"user": {
+			"title": "Input 1",
+			"value": "steffen"
+		},
+		"pass": {
+			"title": "Input 1",
+			"value": "steffen123"
+		}
+	},
+	"packages": [
+		"https"
+	],
+	"code": "return 'test';"
+}

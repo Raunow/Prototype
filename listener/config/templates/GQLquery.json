@@ -1,0 +1,14 @@
+{
+	"name": "GQLquery",
+	"inputs": {
+		"T1": {
+			"title": "Input 1",
+			"default": null
+		}
+	},
+	"constants": {
+		"factor": 3
+	},
+	"packages": [],
+	"code": "return I1 + I2 + I3;"
+}

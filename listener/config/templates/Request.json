@@ -1,0 +1,33 @@
+{
+	"name": "Request",
+	"inputs": null,
+	"children": {
+		"T1": {
+			"name": "Trigger",
+			"inputs": {
+				"topic": [
+					"UIDofMeterTopic1"
+				]
+			}
+		},
+		"loginRequest": {
+			"name": "code.block.json",
+			"title": "Pressure too high",
+			"inputs": {
+				"topic": [
+					"./T1"
+				],
+				"ID": "dnwauidnawi"
+			},
+			"constants": {
+				"N1": 4
+			}
+		}
+	},
+	"output": [],
+	"error": [
+		"Silent",
+		"all",
+		"specific (relative)topics"
+	]
+}
