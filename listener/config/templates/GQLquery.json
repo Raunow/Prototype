@@ -1,13 +1,15 @@
 {
 	"name": "GQLquery",
 	"inputs": {
-		"T1": {
-			"title": "Input 1",
-			"default": null
+		"UID": {
+			"title": "UID",
+			"value": null
+		},
+		"query": {
+			"writeable": false,
+			"connectable": false,
+			"value": "query MeterTitle($UID: [ID!]){Meters(filter: {id: $UID}) {edges {node {title }}}}"
 		}
-	},
-	"constants": {
-		"factor": 3
 	},
 	"packages": [],
 	"code": "return I1 + I2 + I3;"
