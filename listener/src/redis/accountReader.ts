@@ -1,20 +1,20 @@
 import { readFile } from "fs";
 import { join } from "path";
 
-const resolvePath = (template: string) => join(__dirname, '../..', `/config/templates/${template}.json`);
+const resolvePath = (file: string, folder: string) => join(__dirname, '../..', `/config/${folder}/${file}.json`);
+const templatePath = (file: string) => resolvePath(file, 'templates');
+const accountPath = (file: string) => resolvePath(file, 'accounts');
 
 interface IAccount {
 	topic: string;
 	apps: { [key: string]: IApplication };
 }
-
 interface IApplication {
 	name: string;
 	user: string;
 	args?: { [key: string]: any };
 	error: "all" | "silent" | Array<string>;
 }
-
 interface IBlock {
 	name: string;
 	title: string;
@@ -23,50 +23,50 @@ interface IBlock {
 }
 
 
-export class Account {
+export class Account implements IAccount {
 	topic: string;
 	apps: { [key: string]: Application };
 
-	constructor(public name: string, accountJSON: string) {
-		let { topic, apps } = JSON.parse(accountJSON) as IAccount;
-		this.topic = topic;
+	constructor(public name: string) {
+		readFile(accountPath(this.name), (err, data) => {
+			if (err) console.error(err);
 
-		Object.entries(apps).forEach(([name, app]) => this.apps[name] = new Application(app));
+			let { topic, apps } = JSON.parse(data.toString()) as IAccount;
+			this.topic = topic;
+
+			Object.entries(apps).forEach(([name, app]) => this.apps[name] = new Application(app));
+		});
 	}
 }
 
-export class Application {
+export class Application implements IApplication {
 	name: string;
 	user: string;
 	args?: { [key: string]: any };
+	error: "all" | "silent" | Array<string>;
 	blocks: Array<Block>;
 	triggers: Array<Block>;
 
-	constructor({ name, user, args }: IApplication) {
-		this.name = name;
-		this.user = user;
-		this.args = args;
+	constructor(app: IApplication) {
+		Object.assign(this, app)
 
-		this.initBlocks();
+		this.initBlocks(this.name);
 	}
 
-	initBlocks() {
-		readFile(resolvePath(this.name), (err, data) => {
+	initBlocks(name: string) {
+		let block = new Block(name);
 
-		})
+
 	}
 }
 
 export class Block {
-
+	children: Array<Block>;
 	constructor(name: string) {
-		readFile(resolvePath(name), (err, data) => {
-			if (err) {
-				console.log(err);
-			}
+		readFile(templatePath(name), (err, data) => {
+			if (err) console.error(err);
 
 			JSON.parse(data.toString());
-
 		});
 	}
 }
