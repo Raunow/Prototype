@@ -12,25 +12,25 @@
     }
   },
   "children": {
-    "Add1": {
-      "type": "Add",
-      "inputs": {
-        "A": {
-          "topics": ["./I1"]
-        },
-        "B": {
-          "topics": ["./I2"]
-        }
-      }
-    },
     "Add2": {
-      "type": "Add",
+      "name": "Add",
       "inputs": {
         "A": {
           "topics": ["./Add1"]
         },
         "B": {
           "topics": ["./I3"]
+        }
+      }
+    },
+    "Add1": {
+      "name": "Add",
+      "inputs": {
+        "A": {
+          "topics": ["./I1"]
+        },
+        "B": {
+          "topics": ["./I2"]
         }
       }
     }
