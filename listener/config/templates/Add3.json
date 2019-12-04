@@ -1,22 +1,45 @@
 {
-	"name": "Add3",
-	"inputs": {
-		"I1": {
-			"topics": [],
-			"title": "Input 1"
-		},
-		"I2": {
-			"title": "Input 2"
-		},
-		"I3": {
-			"title": "Input 3"
-		},
-		"factor": {
-			"writable": true,
-			"connectable": false,
-			"value": 3
-		}
-	},
-	"packages": [],
-	"code": "return I1 + I2 + I3 + %referenceAble%;"
+  "name": "Add3",
+  "inputs": {
+    "I1": {
+      "topics": [],
+      "title": "Input 1"
+    },
+    "I2": {
+      "title": "Input 2"
+    },
+    "I3": {
+      "title": "Input 3"
+    },
+    "factor": {
+      "writable": true,
+      "connectable": false,
+      "value": 3
+    }
+  },
+  "children": {
+    "Add1": {
+      "type": "Add",
+      "inputs": {
+        "A": {
+          "topics": ["./I1"]
+        },
+        "B": {
+          "topics": ["./I2"]
+        }
+      }
+    },
+    "Add2": {
+      "type": "Add",
+      "inputs": {
+        "A": {
+          "topics": ["./Add1"]
+        },
+        "B": {
+          "topics": ["./I3"]
+        }
+      }
+    }
+  },
+  "output": ["./Add2"]
 }

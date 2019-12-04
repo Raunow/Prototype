@@ -1,102 +1,82 @@
 {
-	"name": "AddMeters",
-	"inputs": null,
-	"children": {
-		"Meter1": {
-			"name": "trigger.block",
-			"inputs": {
-				"trigger": {
-					"topics": [
-						"YXBpX2RldmVsb3BfTWV0ZXJfNzA="
-					]
-				}
-			}
-		},
-		"Meter2": {
-			"name": "trigger.block",
-			"inputs": {
-				"trigger": {
-					"topics": [
-						"YXBpX2RldmVsb3BfTWV0ZXJfNzE="
-					]
-				}
-			}
-		},
-		"Meter3": {
-			"name": "trigger.block",
-			"inputs": {
-				"trigger": {
-					"topics": [
-						"YXBpX2RldmVsb3BfTWV0ZXJfNzI="
-					]
-				}
-			}
-		},
-		"Query1": {
-			"name": "GQLquery.block",
-			"inputs": {
-				"UID": {
-					"topics": [
-						"./Meter1"
-					]
-				}
-			}
-		},
-		"Query2": {
-			"name": "GQLquery.block",
-			"inputs": {
-				"UID": {
-					"topics": [
-						"./Meter2"
-					]
-				}
-			}
-		},
-		"Query3": {
-			"name": "GQLquery",
-			"inputs": {
-				"UID": {
-					"topics": [
-						"./Meter3"
-					]
-				}
-			}
-		},
-		"ADDN": {
-			"name": "Add3",
-			"inputs": {
-				"I1": {
-					"topics": [
-						"./Query1"
-					]
-				},
-				"I2": {
-					"topics": [
-						"./Query2"
-					]
-				},
-				"I3": {
-					"topics": [
-						"./Query3"
-					]
-				},
-				"factor": {
-					"value": 4
-				}
-			}
-		},
-		"Mutate1": {
-			"name": "GQLmutation",
-			"inputs": {
-				"value": {
-					"topics": [
-						"./ADDN"
-					]
-				},
-				"uid": {
-					"value": "YXBpX2RldmVsb3BfTWV0ZXJfNzM="
-				}
-			}
-		}
-	}
+  "name": "AddMeters",
+  "inputs": null,
+  "children": {
+    "Meter1": {
+      "name": "Trigger",
+      "inputs": {
+        "trigger": {
+          "topics": ["YXBpX2RldmVsb3BfTWV0ZXJfNzA="]
+        }
+      }
+    },
+    "Meter2": {
+      "name": "Trigger",
+      "inputs": {
+        "trigger": {
+          "topics": ["YXBpX2RldmVsb3BfTWV0ZXJfNzE="]
+        }
+      }
+    },
+    "Meter3": {
+      "name": "Trigger",
+      "inputs": {
+        "trigger": {
+          "topics": ["YXBpX2RldmVsb3BfTWV0ZXJfNzI="]
+        }
+      }
+    },
+    "Query1": {
+      "name": "GQLquery",
+      "inputs": {
+        "UID": {
+          "topics": ["./Meter1"]
+        }
+      }
+    },
+    "Query2": {
+      "name": "GQLquery",
+      "inputs": {
+        "UID": {
+          "topics": ["./Meter2"]
+        }
+      }
+    },
+    "Query3": {
+      "name": "GQLquery",
+      "inputs": {
+        "UID": {
+          "topics": ["./Meter3"]
+        }
+      }
+    },
+    "Add": {
+      "name": "Add3",
+      "inputs": {
+        "I1": {
+          "topics": ["./Query1"]
+        },
+        "I2": {
+          "topics": ["./Query2"]
+        },
+        "I3": {
+          "topics": ["./Query3"]
+        },
+        "factor": {
+          "value": 4
+        }
+      }
+    },
+    "Mutate1": {
+      "name": "GQLmutation",
+      "inputs": {
+        "value": {
+          "topics": ["./Add"]
+        },
+        "uid": {
+          "value": "YXBpX2RldmVsb3BfTWV0ZXJfNzM="
+        }
+      }
+    }
+  }
 }
