@@ -44,7 +44,7 @@ function getCallback(options, constants: any) {
 	}
 }
 
-function addSubscription(blocks: Array<Block>) {
+/*function addSubscription(blocks: Array<Block>) {
 	let parent = blocks.find((block) => block.name === 'T1')
 
 	blocks.map((block) => {
@@ -63,7 +63,7 @@ function addSubscription(blocks: Array<Block>) {
 		}
 	})
 }
-
+*/
 
 
 
