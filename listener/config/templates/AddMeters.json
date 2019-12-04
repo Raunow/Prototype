@@ -3,7 +3,7 @@
 	"inputs": null,
 	"children": {
 		"Meter1": {
-			"name": "trigger.block.json",
+			"name": "trigger.block",
 			"inputs": {
 				"trigger": {
 					"topics": [
@@ -13,7 +13,7 @@
 			}
 		},
 		"Meter2": {
-			"name": "trigger.block.json",
+			"name": "trigger.block",
 			"inputs": {
 				"trigger": {
 					"topics": [
@@ -23,7 +23,7 @@
 			}
 		},
 		"Meter3": {
-			"name": "trigger.block.json",
+			"name": "trigger.block",
 			"inputs": {
 				"trigger": {
 					"topics": [
@@ -33,7 +33,7 @@
 			}
 		},
 		"Query1": {
-			"name": "GQLquery.block.json",
+			"name": "GQLquery.block",
 			"inputs": {
 				"UID": {
 					"topics": [
@@ -43,7 +43,7 @@
 			}
 		},
 		"Query2": {
-			"name": "GQLquery.block.json",
+			"name": "GQLquery.block",
 			"inputs": {
 				"UID": {
 					"topics": [
@@ -53,7 +53,7 @@
 			}
 		},
 		"Query3": {
-			"name": "GQLquery.json",
+			"name": "GQLquery",
 			"inputs": {
 				"UID": {
 					"topics": [
@@ -63,7 +63,7 @@
 			}
 		},
 		"ADDN": {
-			"name": "Add3.json",
+			"name": "Add3",
 			"inputs": {
 				"I1": {
 					"topics": [
@@ -86,7 +86,7 @@
 			}
 		},
 		"Mutate1": {
-			"name": "GQLmutation.json",
+			"name": "GQLmutation",
 			"inputs": {
 				"value": {
 					"topics": [
@@ -98,7 +98,5 @@
 				}
 			}
 		}
-	},
-	"output": [],
-	"error": "Silent"
+	}
 }

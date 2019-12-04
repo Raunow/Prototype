@@ -6,7 +6,8 @@
 			"user": "YXBpX2RldmVsb3BfVXNlcl8xNQ==",
 			"args": {
 				"referenceAble": "anyValue"
-			}
+			},
+			"error": "silent"
 		}
 	}
 }

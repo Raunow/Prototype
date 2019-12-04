@@ -2,9 +2,6 @@
 	"name": "GQLmutation",
 	"inputs": {
 		"value": {
-			"topics": [
-				"Add3.json"
-			],
 			"title": "value"
 		},
 		"uid": {
