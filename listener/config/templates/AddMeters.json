@@ -1,31 +1,23 @@
 {
   "name": "AddMeters",
-  "inputs": null,
-  "children": {
+  "inputs": {
     "Meter1": {
-      "name": "Trigger",
-      "inputs": {
-        "trigger": {
-          "topics": ["YXBpX2RldmVsb3BfTWV0ZXJfNzA="]
-        }
-      }
+      "title": "Meter1"
     },
     "Meter2": {
-      "name": "Trigger",
-      "inputs": {
-        "trigger": {
-          "topics": ["YXBpX2RldmVsb3BfTWV0ZXJfNzE="]
-        }
-      }
+      "title": "Meter2"
     },
     "Meter3": {
-      "name": "Trigger",
-      "inputs": {
-        "trigger": {
-          "topics": ["YXBpX2RldmVsb3BfTWV0ZXJfNzI="]
-        }
-      }
+      "title": "Meter3"
     },
+    "ForceRecalculation": {
+      "title": "Force recalculation",
+      "connectable": false,
+      "topics": ["hour"],
+      "value": "%referenceAble%"
+    }
+  },
+  "children": {
     "Query1": {
       "name": "GQLquery",
       "inputs": {
