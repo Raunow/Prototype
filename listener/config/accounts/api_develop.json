@@ -1,13 +1,24 @@
 {
-	"topic": "api_develop/",
-	"applications": {
-		"AddMeters": {
-			"name": "AddMeters",
-			"user": "YXBpX2RldmVsb3BfVXNlcl8xNQ==",
-			"args": {
-				"referenceAble": "anyValue"
-			},
-			"error": "silent"
-		}
-	}
+  "topic": "api_develop/",
+  "applications": {
+    "AddMeters": {
+      "name": "AddMeters",
+      "user": "YXBpX2RldmVsb3BfVXNlcl8xNQ==",
+      "args": {
+        "referenceAble": "anyValue"
+      },
+      "inputs": {
+        "Meter1": {
+          "topics": ["YXBpX2RldmVsb3BfTWV0ZXJfNzA="]
+        },
+        "Meter2": {
+          "topics": ["YXBpX2RldmVsb3BfTWV0ZXJfNzE="]
+        },
+        "Meter3": {
+          "topics": ["YXBpX2RldmVsb3BfTWV0ZXJfNzI="]
+        }
+      },
+      "error": "silent"
+    }
+  }
 }

@@ -1,0 +1,13 @@
+{
+  "name": "Add",
+  "inputs": {
+    "A": {
+      "title": "Input A"
+    },
+    "B": {
+      "title": "Input B"
+    }
+  },
+  "packages": [],
+  "code": "return A + B;"
+}

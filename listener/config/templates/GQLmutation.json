@@ -1,18 +1,18 @@
 {
-	"name": "GQLmutation",
-	"inputs": {
-		"value": {
-			"title": "value"
-		},
-		"uid": {
-			"connectable": false
-		},
-		"mutation": {
-			"writeable": false,
-			"connectable": false,
-			"value": "mutation MyMutation($uid: [ID!], $value: String) {Meters(id: $uid) {update(data: {name: $value }) {title }}}"
-		}
-	},
-	"packages": [],
-	"code": "return I1 + I2 + I3;"
+  "name": "GQLmutation",
+  "inputs": {
+    "value": {
+      "title": "value"
+    },
+    "uid": {
+      "connectable": false
+    },
+    "mutation": {
+      "writeable": false,
+      "connectable": false,
+      "value": "mutation MyMutation($uid: [ID!], $value: String) {Meters(id: $uid) {update(data: {name: $value }) {title }}}"
+    }
+  },
+  "packages": [],
+  "code": "return I1 + I2 + I3;"
 }
