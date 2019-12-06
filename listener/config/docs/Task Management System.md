@@ -6,17 +6,21 @@ THe prototype implements accounts, Application s and blocks in json files. These
 
 ## Topic based system
 
-All event signalling and communication between blocks is made through a messagebroker. It relies soley on *publish* and *subscribe* on blocks input and outputs. 
+All event signalling and communication between blocks is made through a messagebroker. It relies solely on *publish* and *subscribe* on blocks input and outputs. 
 
 ## Account
 
-Every application runs under an account. The account holds information about all configured applications that account runs. 
+Every application runs under an account. The account holds information about all configured applications that account owns. 
 
 These are defined as 
 
 ```json
 {
   "topic": "AccountTopic",
+  "args": {
+    "argName1": "valueOfArgument",
+    "argName2": "valueOfArgument2"
+  },
   "applications": {
     "App1": {...},
     "App2": {...},
@@ -39,8 +43,8 @@ An application is defined as this:
 | `name`   | String | The name of the block to run. The entrypoint for the application |
 | `user`   | UID    | The unique id of the user to run the block as. Internally, all API calls used by blocks will run as this user. Access control for all request is applied with that users priveleges in the request. |
 | `args`   | Object | `key`  the name of the argument. used as %name% in the blocks<br />`value` the value of the argument, all occurances of `key` will be replaced with `value`. |
-| `inputs` | object | `key` the name of the input<br />`value` object with configuration for that input<br />please see block input declaration section in this document. |
-| `error`  | String | allowed values are *silent*, *all*, and ??? (default: *all*) |
+| `inputs` | Object | `key` the name of the input<br />`value` object with configuration for that input<br />please see block input declaration section in this document. |
+| `error`  | String | allowed values are *all*, *silent*, or an Array of topics (default: *all*) |
 
 Example:
 
@@ -75,13 +79,13 @@ A code block is defined as:
 
 | Name       | Type                | Description                                                  | Default   |
 | ---------- | ------------------- | ------------------------------------------------------------ | --------- |
-| `name`     | String              | The unique name of the block. it is used as reference when configuring applications and container blocks. Must be unique in account. | required  |
+| `name`     | String              | The unique name of the block. It is used as reference when configuring applications and container blocks. must be unique under the account. | required  |
 | `inputs`   | InputDeclaration    | `key` name of the input<br />`value` input definition        | {}        |
-| `packages` | [string]            | list of packages to provide in the code block                | []        |
-| `code`     | string              | The code. ES6. See code section below for description.       | undefined |
-| `children` | object              | Definition of child blocks. If children is defined, the `code` is skipped. If both `children` and `code` is defined, it is an invalid configuration. | {}        |
-| `output`   | Array               | if array, all connected outputs from child block is output from block | undefined |
-| `error`    | Array\|string\|null | *all*,*none* or array of error from child blocks.            | `all`     |
+| `packages` | [String]            | List of packages to provide in the code block                | []        |
+| `code`     | String              | The code. ES6. See code section below for description.       | undefined |
+| `children` | Object              | Definition of child blocks. If children is defined, the `code` is skipped. If both `children` and `code` is defined, it is an invalid configuration. | {}        |
+| `output`   | Array               | All connected outputs from child block is output from the block | undefined |
+| `error`    | Array\|String\|Null | *all*, *silent* or array of error from child blocks.            | `all`     |
 
 ```json
 {
@@ -107,9 +111,9 @@ A block can have inputs. The inputs are possible to configure in a number of way
 | ------------- | -------- | ------------------------------------------------------------ | --------------------- |
 | `title`       | String   | The title for the input                                      | the name of the block |
 | `topics`      | [String] | Topics which callbacks trigger the input value change.       | empty array           |
-| `value`       | any      | The present value for the input. If defined in the configuration, that value is used regardless of what payload data on topic update is. | undefined             |
-| `connectable` | boolean  | Indicates if the input is possible to connect to outputs from other blocks or not. | true                  |
-| `editable`    | boolean  | Indicates if the input value is editable or should be displayed as a label. | true                  |
+| `value`       | Any      | The present value for the input. If defined in the configuration, that value is used regardless of what payload data on topic update is. | undefined             |
+| `connectable` | Boolean  | Indicates if the input is possible to connect to outputs from other blocks or not. | true                  |
+| `editable`    | Boolean  | Indicates if the input value is editable or should be displayed as a label. | true                  |
 
 Each block input contains of a number of topics, mostly only one. Depending on how the configuration is made.
 
@@ -118,7 +122,7 @@ Each block input contains of a number of topics, mostly only one. Depending on h
 ```json
 "inputs": {
     "Input1": {
-      "topics":['topic1', 'topic2'],
+      "topics":["topic1", "topic2"],
       "connectable":false,
       "editable":false,
       "title": "Input 1",
@@ -137,34 +141,34 @@ Each block input contains of a number of topics, mostly only one. Depending on h
 
 ###### Input1
 
-Defines a constant, non connectable input. it is bound to two topics. every time an event is published in any of those topics, the block is executed and the value of the input is 1. It is not possible to connect this input to another output. It is not possible to edit the value in the block. 
+Defines a constant, non connectable input. it is bound to two topics. Every time an event is published to any of those topics, the block is executed and the value of the input is 1. It is not possible to connect this input to another output. It is not possible to edit the value in the block. 
 
 ###### Input2
 
-Defines a generic input. it can be connected to any output, and value will be undefined until the first message is published in that topic. 
+Defines a generic input. It can be connected to any output, and the value will be the payload from the message published to the topic by the connected output. 
 
 ###### Input 3
 
 Defines an input. It is connectable. It has a constant value regardless of topic payload values. The value is possible to edit in the block configuration. 
 
-#### Code is defined
+#### Code is defined by:
 
-##### Code is string
+##### Code as string
 
-If the code is a string, that string is used as the code block. The inputs exists as global variables in the block, as well as context and other variables. packages can be used and most of operations can be done. 
+If the code is a string, that string is used as the code block. The inputs exists as global variables in the block, as well as context and other variables. Packages can be used and most of operations can be done. 
 
 ```json
  "code": "return A + B;"
 ```
 
-##### Code is an object
+##### Code as an object
 
-The object is a reference to a script file, located next to the block. the script file can have arguments used as globals. the value of these are used in the script file as global variables, to control program flow.
+The object is a reference to a script file, located next to the block. The script file can have arguments used as globals. The value of these are used in the script file as global variables, to control program flow.
 
 ```json
   "code": {
     "file": "add.js",
-    "args": { "DoCalculation":true }
+    "args": { "DoCalculation": true }
   }
 ```
 
@@ -177,9 +181,9 @@ return (i1, i2, i3) => {
 };
 ```
 
-#### Children is defined
+#### Children are defined by:
 
-The block is treated as a container block. It has no code. It only passes its inputs to other blocks inputs. The blocks are nested. The blocks names is unique on block level. same name can exist in other containers context. 
+The block is treated as a container block. It has no function on it's own, code or otherwise. It only forwards the connected inputs to the sub blocks that define their inputs to be the blocks inputs. Names of children are unique within the block only, the container blocks name is still required to be unique among blocks on the same level (blocks that can draw a connection to it directly). 
 
 | Name       | Type   | Description                                                  |
 | ---------- | ------ | ------------------------------------------------------------ |
