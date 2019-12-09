@@ -8,7 +8,6 @@ const accountPath = (file: string) => resolvePath(file, 'accounts');
 
 
 
-//TODO: use args before parsing to objects. and pass the args down the chain.
 export class Account implements IAccount {
 	topic: string;
 	args: { [key: string]: any }
@@ -22,12 +21,12 @@ export class Account implements IAccount {
 			this.args = args;
 			this.topic = topic;
 
-			Object.entries(apps).forEach(([name, app]) => this.apps[name] = new Application(app));
+			Object.entries(apps).forEach(([name, app]) => this.apps[name] = new Application(app, this.args));
 		});
 	}
 }
 
-//TODO: Merge args and check for macros in text before parsing.
+//TODO: check for macros in text before parsing.
 export class Application implements IApplication {
 	name: string;
 	user: string;
@@ -36,8 +35,12 @@ export class Application implements IApplication {
 	error?: IError;
 	block: Block;
 
-	constructor(app: IApplication) {
-		Object.assign(this, app)
+	constructor({ name, user, args, inputs, error }: IApplication, rootArgs: { [key: string]: any } = {}) {
+		this.name = name;
+		this.user = user;
+		this.args = Object.assign({}, rootArgs, args);
+		this.inputs = inputs || {};
+		this.error = error || 'all';
 
 		this.block = new Block(this.name);
 	}
@@ -46,15 +49,31 @@ export class Application implements IApplication {
 export class Block implements IBlock {
 	name: string;
 	inputs?: { [key: string]: IInput };
-	children?: { [key: string]: IBlock };
+	block: Block;
+	children?: { [key: string]: IBlock & Block };
 	output?: Array<string>;
-	error: IError;
+	error?: IError;
 
 	constructor(name: string) {
 		readFile(templatePath(name), (err, data) => {
 			if (err) console.error(err);
 
-			JSON.parse(data.toString());
+			let { name, inputs, children, output, error } = JSON.parse(data.toString()) as IBlock & Block;
+			this.name = name
+			this.inputs = inputs;
+			this.output = output;
+			this.error = error;
+			this.children = children;
+
+			if (this.name) {
+				this.block = new Block(this.name);
+			}
+
+			Object.keys(children).forEach(key => {
+				if (children[key].name) {
+					children[key].block = new Block(children[key].name);
+				}
+			});
 		});
 	}
 }
