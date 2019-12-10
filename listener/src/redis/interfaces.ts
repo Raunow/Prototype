@@ -1,7 +1,7 @@
 export interface IAccount {
 	topic: string;
 	args?: { [key: string]: any };
-	apps?: { [key: string]: IApplication };
+	applications?: { [key: string]: IApplication };
 }
 export interface IApplication {
 	name: string;

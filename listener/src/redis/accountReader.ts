@@ -1,27 +1,27 @@
-import { readFile } from "fs";
+import { promises } from "fs";
 import { join } from "path";
+import { promisify } from 'util'
 import { IAccount, IApplication, IBlock, IError, IInput } from "./interfaces";
 
 const resolvePath = (file: string, folder: string) => join(__dirname, '../..', `/config/${folder}/${file}.json`);
 const templatePath = (file: string) => resolvePath(file, 'templates');
 const accountPath = (file: string) => resolvePath(file, 'accounts');
 
-
-
 export class Account implements IAccount {
 	topic: string;
 	args: { [key: string]: any }
-	apps: { [key: string]: Application };
+	applications: { [key: string]: Application } = {};
 
-	constructor(public name: string) {
-		readFile(accountPath(this.name), (err, data) => {
-			if (err) console.error(err);
+	constructor(public name: string) { };
 
-			let { topic, args, apps } = JSON.parse(data.toString()) as IAccount;
-			this.args = args;
-			this.topic = topic;
+	async init() {
+		let { topic, args, applications } = JSON.parse((await promises.readFile(accountPath(this.name))).toString()) as IAccount;
+		this.args = args;
+		this.topic = topic;
 
-			Object.entries(apps).forEach(([name, app]) => this.apps[name] = new Application(app, this.args));
+		await Object.entries(applications).forEach(async ([name, app]) => {
+			this.applications[name] = new Application(app, this.args);
+			await this.applications[name].init();
 		});
 	}
 }
@@ -42,7 +42,11 @@ export class Application implements IApplication {
 		this.inputs = inputs || {};
 		this.error = error || 'all';
 
-		this.block = new Block(this.name);
+		this.block = new Block();
+	}
+
+	async init() {
+		await this.block.init(this.name)
 	}
 }
 
@@ -50,30 +54,28 @@ export class Block implements IBlock {
 	name: string;
 	inputs?: { [key: string]: IInput };
 	block: Block;
-	children?: { [key: string]: IBlock & Block };
+	children?: { [key: string]: IBlock & Block } = {};
 	output?: Array<string>;
 	error?: IError;
 
-	constructor(name: string) {
-		readFile(templatePath(name), (err, data) => {
-			if (err) console.error(err);
+	constructor() { }
 
-			let { name, inputs, children, output, error } = JSON.parse(data.toString()) as IBlock & Block;
-			this.name = name
-			this.inputs = inputs;
-			this.output = output;
-			this.error = error;
-			this.children = children;
+	async init(blockName: string) {
+		let data = await promises.readFile(templatePath(blockName));
+		Object.assign(this, JSON.parse(data.toString()) as IBlock & Block);
 
-			if (this.name) {
-				this.block = new Block(this.name);
-			}
+		if (this.name && this.name !== blockName) {
+			this.block = new Block();
+			await this.block.init(this.name);
+		}
 
-			Object.keys(children).forEach(key => {
-				if (children[key].name) {
-					children[key].block = new Block(children[key].name);
+		if (this.children) {
+			await Object.entries(this.children).forEach(async ([key, child]) => {
+				if (child.name && child.name !== key) {
+					child.block = new Block();
+					await child.block.init(child.name);
 				}
 			});
-		});
+		}
 	}
 }

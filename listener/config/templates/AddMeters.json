@@ -1,74 +1,90 @@
 {
-  "name": "AddMeters",
-  "inputs": {
-    "Meter1": {
-      "title": "Meter1"
-    },
-    "Meter2": {
-      "title": "Meter2"
-    },
-    "Meter3": {
-      "title": "Meter3"
-    },
-    "ForceRecalculation": {
-      "title": "Force recalculation",
-      "connectable": false,
-      "topics": ["hour"],
-      "value": "%referenceAble%"
-    }
-  },
-  "children": {
-    "Query1": {
-      "name": "GQLquery",
-      "inputs": {
-        "UID": {
-          "topics": ["./Meter1"]
-        }
-      }
-    },
-    "Query2": {
-      "name": "GQLquery",
-      "inputs": {
-        "UID": {
-          "topics": ["./Meter2"]
-        }
-      }
-    },
-    "Query3": {
-      "name": "GQLquery",
-      "inputs": {
-        "UID": {
-          "topics": ["./Meter3"]
-        }
-      }
-    },
-    "Add": {
-      "name": "Add3",
-      "inputs": {
-        "I1": {
-          "topics": ["./Query1"]
-        },
-        "I2": {
-          "topics": ["./Query2"]
-        },
-        "I3": {
-          "topics": ["./Query3"]
-        },
-        "factor": {
-          "value": 4
-        }
-      }
-    },
-    "Mutate1": {
-      "name": "GQLmutation",
-      "inputs": {
-        "value": {
-          "topics": ["./Add"]
-        },
-        "uid": {
-          "value": "YXBpX2RldmVsb3BfTWV0ZXJfNzM="
-        }
-      }
-    }
-  }
+	"name": "AddMeters",
+	"inputs": {
+		"Meter1": {
+			"title": "Meter1"
+		},
+		"Meter2": {
+			"title": "Meter2"
+		},
+		"Meter3": {
+			"title": "Meter3"
+		},
+		"ForceRecalculation": {
+			"title": "Force recalculation",
+			"connectable": false,
+			"topics": [
+				"hour"
+			],
+			"value": "%referenceAble%"
+		}
+	},
+	"children": {
+		"Query1": {
+			"name": "GQLquery",
+			"inputs": {
+				"UID": {
+					"topics": [
+						"./Meter1"
+					]
+				}
+			}
+		},
+		"Query2": {
+			"name": "GQLquery",
+			"inputs": {
+				"UID": {
+					"topics": [
+						"./Meter2"
+					]
+				}
+			}
+		},
+		"Query3": {
+			"name": "GQLquery",
+			"inputs": {
+				"UID": {
+					"topics": [
+						"./Meter3"
+					]
+				}
+			}
+		},
+		"Add": {
+			"name": "Add3",
+			"inputs": {
+				"I1": {
+					"topics": [
+						"./Query1"
+					]
+				},
+				"I2": {
+					"topics": [
+						"./Query2"
+					]
+				},
+				"I3": {
+					"topics": [
+						"./Query3"
+					]
+				},
+				"factor": {
+					"value": 4
+				}
+			}
+		},
+		"Mutate1": {
+			"name": "GQLmutation",
+			"inputs": {
+				"value": {
+					"topics": [
+						"./Add"
+					]
+				},
+				"uid": {
+					"value": "YXBpX2RldmVsb3BfTWV0ZXJfNzM="
+				}
+			}
+		}
+	}
 }

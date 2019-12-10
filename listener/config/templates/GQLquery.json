@@ -1,17 +1,17 @@
 {
-  "name": "GQLquery",
-  "inputs": {
-    "UID": {
-      "topics": "inherit",
-      "title": "UID",
-      "value": null
-    },
-    "query": {
-      "writeable": false,
-      "connectable": false,
-      "value": "query MeterTitle($UID: [ID!]){Meters(filter: {id: $UID}) {edges {node {title }}}}"
-    }
-  },
-  "packages": [],
-  "code": "return I1 + I2 + I3;"
+	"name": "GQLquery",
+	"inputs": {
+		"UID": {
+			"topics": "inherit",
+			"title": "UID",
+			"value": null
+		},
+		"query": {
+			"writeable": false,
+			"connectable": false,
+			"value": "query MeterTitle($UID: [ID!]){Meters(filter: {id: $UID}) {edges {node {title }}}}"
+		}
+	},
+	"packages": [],
+	"code": "return I1 + I2 + I3;"
 }
