@@ -2,7 +2,6 @@
 	"name": "GQLquery",
 	"inputs": {
 		"UID": {
-			"topics": "inherit",
 			"title": "UID",
 			"value": null
 		},

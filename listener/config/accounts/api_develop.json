@@ -1,14 +1,14 @@
 {
 	"topic": "api_develop/",
 	"args": {
-		"referenceAble": "anyValue"
+		"referenceAble": "qwe"
 	},
 	"applications": {
 		"AddMeters": {
 			"name": "AddMeters",
 			"user": "YXBpX2RldmVsb3BfVXNlcl8xNQ==",
 			"args": {
-				"referenceAble1": "anyValue"
+				"macro": "}"
 			},
 			"inputs": {
 				"Meter1": {

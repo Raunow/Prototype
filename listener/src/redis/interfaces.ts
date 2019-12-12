@@ -8,6 +8,7 @@ export interface IApplication {
 	user: string;
 	args?: { [key: string]: any };
 	inputs?: { [key: string]: IInput }
+	children?: { [key: string]: IBlock };
 	error?: IError;
 }
 export interface IBlock {

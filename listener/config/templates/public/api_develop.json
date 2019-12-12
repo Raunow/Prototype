@@ -5,8 +5,8 @@
 			"name": "AddMeters",
 			"user": "YXBpX2RldmVsb3BfVXNlcl8xNQ==",
 			"args": {
-				"referenceAble": "anyValue",
-				"referenceAble1": "anyValue"
+				"referenceAble": "qwe",
+				"macro": "}"
 			},
 			"inputs": {
 				"Meter1": {
@@ -27,12 +27,284 @@
 			},
 			"error": "silent",
 			"block": {
-				"children": {}
+				"name": "AddMeters",
+				"inputs": {
+					"Meter1": {
+						"title": "Meter1",
+						"topics": [
+							"YXBpX2RldmVsb3BfTWV0ZXJfNzA="
+						]
+					},
+					"Meter2": {
+						"title": "Meter2",
+						"topics": [
+							"YXBpX2RldmVsb3BfTWV0ZXJfNzE="
+						]
+					},
+					"Meter3": {
+						"title": "Meter3",
+						"topics": [
+							"YXBpX2RldmVsb3BfTWV0ZXJfNzI="
+						]
+					},
+					"ForceRecalculation": {
+						"title": "Force recalculation",
+						"connectable": false,
+						"topics": [
+							"hour"
+						],
+						"value": "qwe"
+					}
+				},
+				"children": {
+					"Query1": {
+						"name": "GQLquery",
+						"inputs": {
+							"UID": {
+								"topics": [
+									"./Meter1"
+								]
+							}
+						},
+						"block": {
+							"name": "GQLquery",
+							"inputs": {
+								"UID": {
+									"title": "UID",
+									"value": null,
+									"topics": [
+										"./Meter1"
+									]
+								},
+								"query": {
+									"writeable": false,
+									"connectable": false,
+									"value": "query MeterTitle($UID: [ID!]){Meters(filter: {id: $UID}) {edges {node {title }}}}"
+								}
+							},
+							"packages": [],
+							"code": "return I1 + I2 + I3;"
+						}
+					},
+					"Query2": {
+						"name": "GQLquery",
+						"inputs": {
+							"UID": {
+								"topics": [
+									"./Meter2"
+								]
+							}
+						},
+						"block": {
+							"name": "GQLquery",
+							"inputs": {
+								"UID": {
+									"title": "UID",
+									"value": null,
+									"topics": [
+										"./Meter2"
+									]
+								},
+								"query": {
+									"writeable": false,
+									"connectable": false,
+									"value": "query MeterTitle($UID: [ID!]){Meters(filter: {id: $UID}) {edges {node {title }}}}"
+								}
+							},
+							"packages": [],
+							"code": "return I1 + I2 + I3;"
+						}
+					},
+					"Query3": {
+						"name": "GQLquery",
+						"inputs": {
+							"UID": {
+								"topics": [
+									"./Meter3"
+								]
+							}
+						},
+						"block": {
+							"name": "GQLquery",
+							"inputs": {
+								"UID": {
+									"title": "UID",
+									"value": null,
+									"topics": [
+										"./Meter3"
+									]
+								},
+								"query": {
+									"writeable": false,
+									"connectable": false,
+									"value": "query MeterTitle($UID: [ID!]){Meters(filter: {id: $UID}) {edges {node {title }}}}"
+								}
+							},
+							"packages": [],
+							"code": "return I1 + I2 + I3;"
+						}
+					},
+					"Add": {
+						"name": "Add3",
+						"inputs": {
+							"I1": {
+								"topics": [
+									"./Query1"
+								]
+							},
+							"I2": {
+								"topics": [
+									"./Query2"
+								]
+							},
+							"I3": {
+								"topics": [
+									"./Query3"
+								]
+							},
+							"factor": {
+								"value": 4
+							}
+						},
+						"block": {
+							"name": "Add3",
+							"inputs": {
+								"I1": {
+									"title": "Input 1",
+									"topics": [
+										"./Query1"
+									]
+								},
+								"I2": {
+									"title": "Input 2",
+									"topics": [
+										"./Query2"
+									]
+								},
+								"I3": {
+									"title": "Input 3",
+									"topics": [
+										"./Query3"
+									]
+								}
+							},
+							"children": {
+								"Add2": {
+									"name": "Add",
+									"inputs": {
+										"A": {
+											"topics": [
+												"./Add1"
+											]
+										},
+										"B": {
+											"topics": [
+												"./I3"
+											]
+										}
+									},
+									"block": {
+										"name": "Add",
+										"inputs": {
+											"A": {
+												"title": "Input A",
+												"topics": [
+													"./Add1"
+												]
+											},
+											"B": {
+												"title": "Input B",
+												"topics": [
+													"./I3"
+												]
+											}
+										},
+										"packages": [],
+										"code": "return A + B;"
+									}
+								},
+								"Add1": {
+									"name": "Add",
+									"inputs": {
+										"A": {
+											"topics": [
+												"./I1"
+											]
+										},
+										"B": {
+											"topics": [
+												"./I2"
+											]
+										}
+									},
+									"block": {
+										"name": "Add",
+										"inputs": {
+											"A": {
+												"title": "Input A",
+												"topics": [
+													"./I1"
+												]
+											},
+											"B": {
+												"title": "Input B",
+												"topics": [
+													"./I2"
+												]
+											}
+										},
+										"packages": [],
+										"code": "return A + B;"
+									}
+								}
+							},
+							"output": [
+								"./Add2"
+							],
+							"error": "all"
+						}
+					},
+					"Mutate1": {
+						"name": "GQLmutation",
+						"inputs": {
+							"value": {
+								"topics": [
+									"./Add"
+								]
+							},
+							"uid": {
+								"value": "YXBpX2RldmVsb3BfTWV0ZXJfNzM="
+							}
+						},
+						"block": {
+							"name": "GQLmutation",
+							"inputs": {
+								"value": {
+									"title": "value",
+									"topics": [
+										"./Add"
+									]
+								},
+								"uid": {
+									"connectable": false,
+									"value": "YXBpX2RldmVsb3BfTWV0ZXJfNzM="
+								},
+								"mutation": {
+									"writeable": false,
+									"connectable": false,
+									"value": "mutation MyMutation($uid: [ID!], $value: String) {Meters(id: $uid) {update(data: {name: $value }) {title }}}"
+								}
+							},
+							"packages": [],
+							"code": "return I1 + I2 + I3;"
+						}
+					}
+				}
 			}
 		}
 	},
 	"args": {
-		"referenceAble": "anyValue"
+		"referenceAble": "qwe"
 	},
 	"topic": "api_develop/"
 }

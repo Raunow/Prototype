@@ -4,7 +4,7 @@
 	"main": "index.ts",
 	"license": "MIT",
 	"scripts": {
-		"start": "tsnd --respawn --cls src/index.ts"
+		"start": "tsnd --respawn --transpileOnly false --cls src/index.ts"
 	},
 	"dependencies": {
 		"body-parser": "^1.19.0",

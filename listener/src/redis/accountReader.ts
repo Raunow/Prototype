@@ -1,7 +1,7 @@
 import { promises } from "fs";
 import { join } from "path";
-import { promisify } from 'util'
 import { IAccount, IApplication, IBlock, IError, IInput } from "./interfaces";
+
 
 const resolvePath = (file: string, folder: string) => join(__dirname, '../..', `/config/${folder}/${file}.json`);
 const templatePath = (file: string) => resolvePath(file, 'templates');
@@ -15,16 +15,18 @@ export class Account implements IAccount {
 	constructor(public name: string) { };
 
 	async init() {
-		let { topic, args, applications } = JSON.parse((await promises.readFile(accountPath(this.name))).toString()) as IAccount;
+		let rawAccount = (await promises.readFile(accountPath(this.name))).toString();
+		let { topic, args, applications } = JSON.parse(rawAccount) as IAccount;
 		this.args = args;
 		this.topic = topic;
 
-		await Object.entries(applications).forEach(async ([name, app]) => {
+		await Promise.all(Object.entries(applications).map(([name, app]) => {
 			this.applications[name] = new Application(app, this.args);
-			await this.applications[name].init();
-		});
+			return this.applications[name].init();
+		}));
 	}
 }
+
 
 //TODO: check for macros in text before parsing.
 export class Application implements IApplication {
@@ -41,41 +43,59 @@ export class Application implements IApplication {
 		this.args = Object.assign({}, rootArgs, args);
 		this.inputs = inputs || {};
 		this.error = error || 'all';
-
 		this.block = new Block();
 	}
 
 	async init() {
-		await this.block.init(this.name)
+		let argColl = Object.entries(this.args);
+		await this.block.init(this.name, argColl);
+		this.configure();
+	}
+
+	configure() {
+		this.block.configure(this);
 	}
 }
+
 
 export class Block implements IBlock {
 	name: string;
 	inputs?: { [key: string]: IInput };
 	block: Block;
-	children?: { [key: string]: IBlock & Block } = {};
+	children?: { [key: string]: IBlock & Block };
 	output?: Array<string>;
 	error?: IError;
 
-	constructor() { }
+	async init(blockName: string, args: Array<[string, any]>) {
+		let rawBlock = (await promises.readFile(templatePath(blockName))).toString();
+		rawBlock = args.reduce((text, entry) => text.replace(`%${entry[0]}%`, entry[1]), rawBlock);
 
-	async init(blockName: string) {
-		let data = await promises.readFile(templatePath(blockName));
-		Object.assign(this, JSON.parse(data.toString()) as IBlock & Block);
-
-		if (this.name && this.name !== blockName) {
-			this.block = new Block();
-			await this.block.init(this.name);
-		}
+		Object.assign(this, JSON.parse(rawBlock) as IBlock & Block);
 
 		if (this.children) {
-			await Object.entries(this.children).forEach(async ([key, child]) => {
-				if (child.name && child.name !== key) {
-					child.block = new Block();
-					await child.block.init(child.name);
-				}
-			});
+			await Promise.all(
+				Object.entries(this.children)
+					.map(([key, child]) => {
+						if (child.name && child.name !== key) {
+							child.block = new Block();
+							return child.block.init(child.name, args);
+						}
+					})
+			);
+		}
+	}
+	configure(config) {
+		const inputsConfig = config.inputs;
+		Object.keys(this.inputs).forEach((key) => {
+			const inputConfig = inputsConfig[key];
+			Object.assign(this.inputs[key], inputConfig);
+		})
+		if (this.children) {
+			Object.entries(this.children)
+				.map(([key, child]) => {
+					child.block.configure(child)
+				})
+
 		}
 	}
 }
