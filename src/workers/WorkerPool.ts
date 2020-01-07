@@ -49,9 +49,9 @@ export class WorkerPool {
 		this.activeWorkersByID[workerID] = true;
 		let worker = this.workersByID[workerID];
 
-		while (worker === undefined) {
+		while (worker === undefined) { // Off chance a worker isn't ready. Potential hangup.
 			await new Promise((resolve) => setTimeout(() => resolve(), 100));
-			let worker = this.workersByID[workerID];
+			worker = this.workersByID[workerID];
 		}
 
 		const messageCallback = (result: any) => {
