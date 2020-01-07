@@ -7,6 +7,7 @@ interface QueueItem {
 }
 
 export class WorkerPool {
+	private allWorkersActive: boolean = false;
 	private options: WorkerOptions = { stderr: true, stdout: true, stdin: false };
 	private queue: Array<QueueItem> = [];
 	private workersByID: Array<Worker> = [];
@@ -30,6 +31,7 @@ export class WorkerPool {
 		const queueItem: QueueItem = { getData, callback };
 
 		if (availableWorkerID === NaN) {
+			this.allWorkersActive = true;
 			this.queue.push(queueItem);
 			return;
 		}
@@ -38,8 +40,10 @@ export class WorkerPool {
 	}
 
 	private getInactiveWorker() {
-		for (let i = 0; i < this.numberOfThreads; i++) {
-			if (!this.activeWorkersByID[i]) return i;
+		if (this.allWorkersActive) {
+			for (let i = 0; i < this.numberOfThreads; i++) {
+				if (!this.activeWorkersByID[i]) return i;
+			}
 		}
 
 		return NaN;
@@ -76,6 +80,7 @@ export class WorkerPool {
 		const next = () => {
 			if (!this.queue.length) {
 				this.activeWorkersByID[workerID] = false;
+				this.allWorkersActive = false;
 				return;
 			}
 
