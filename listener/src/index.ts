@@ -1,5 +1,5 @@
 //import { createExpress } from './express/app';
-import { Account } from './redis/accountReader';
+import { Account } from './AccountReader/accountReader';
 import { promises } from 'fs';
 import { join } from 'path';
 
