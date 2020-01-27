@@ -2,7 +2,7 @@
 
 ## Prototype
 
-THe prototype implements accounts, Application s and blocks in json files. These can very well be changed or implemented as tables or blobs. The importaant part is structure and how relations and connections are made. 
+The prototype implements accounts, Applications and blocks in json files. These can very well be changed or implemented as tables or blobs. The important part is structure and how relations and connections are made. 
 
 ## Topic based system
 

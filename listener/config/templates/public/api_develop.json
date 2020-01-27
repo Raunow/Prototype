@@ -3,6 +3,7 @@
 	"applications": {
 		"AddMeters": {
 			"name": "AddMeters",
+			"topic": "api_develop/AddMeters",
 			"user": "YXBpX2RldmVsb3BfVXNlcl8xNQ==",
 			"args": {
 				"referenceAble": "qwe",
@@ -73,7 +74,7 @@
 									"title": "UID",
 									"value": null,
 									"topics": [
-										"./Meter1"
+										"YXBpX2RldmVsb3BfTWV0ZXJfNzA="
 									]
 								},
 								"query": {
@@ -102,7 +103,7 @@
 									"title": "UID",
 									"value": null,
 									"topics": [
-										"./Meter2"
+										"YXBpX2RldmVsb3BfTWV0ZXJfNzE="
 									]
 								},
 								"query": {
@@ -131,7 +132,7 @@
 									"title": "UID",
 									"value": null,
 									"topics": [
-										"./Meter3"
+										"YXBpX2RldmVsb3BfTWV0ZXJfNzI="
 									]
 								},
 								"query": {
@@ -149,17 +150,17 @@
 						"inputs": {
 							"I1": {
 								"topics": [
-									"./Query1"
+									"api_develop/AddMeters/Query1"
 								]
 							},
 							"I2": {
 								"topics": [
-									"./Query2"
+									"api_develop/AddMeters/Query2"
 								]
 							},
 							"I3": {
 								"topics": [
-									"./Query3"
+									"api_develop/AddMeters/Query3"
 								]
 							},
 							"factor": {
@@ -172,19 +173,19 @@
 								"I1": {
 									"title": "Input 1",
 									"topics": [
-										"./Query1"
+										"api_develop/AddMeters/Query1"
 									]
 								},
 								"I2": {
 									"title": "Input 2",
 									"topics": [
-										"./Query2"
+										"api_develop/AddMeters/Query2"
 									]
 								},
 								"I3": {
 									"title": "Input 3",
 									"topics": [
-										"./Query3"
+										"api_develop/AddMeters/Query3"
 									]
 								}
 							},
@@ -194,7 +195,7 @@
 									"inputs": {
 										"A": {
 											"topics": [
-												"./Add1"
+												"undefined/Add1"
 											]
 										},
 										"B": {
@@ -209,13 +210,13 @@
 											"A": {
 												"title": "Input A",
 												"topics": [
-													"./Add1"
+													"undefined/Add1"
 												]
 											},
 											"B": {
 												"title": "Input B",
 												"topics": [
-													"./I3"
+													"api_develop/AddMeters/Query3"
 												]
 											}
 										},
@@ -243,13 +244,13 @@
 											"A": {
 												"title": "Input A",
 												"topics": [
-													"./I1"
+													"api_develop/AddMeters/Query1"
 												]
 											},
 											"B": {
 												"title": "Input B",
 												"topics": [
-													"./I2"
+													"api_develop/AddMeters/Query2"
 												]
 											}
 										},
@@ -269,7 +270,7 @@
 						"inputs": {
 							"value": {
 								"topics": [
-									"./Add"
+									"api_develop/AddMeters/Add"
 								]
 							},
 							"uid": {
@@ -282,7 +283,7 @@
 								"value": {
 									"title": "value",
 									"topics": [
-										"./Add"
+										"api_develop/AddMeters/Add"
 									]
 								},
 								"uid": {
@@ -306,5 +307,5 @@
 	"args": {
 		"referenceAble": "qwe"
 	},
-	"topic": "api_develop/"
+	"topic": "api_develop"
 }
