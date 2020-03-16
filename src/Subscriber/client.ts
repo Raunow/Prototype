@@ -43,28 +43,3 @@ function getCallback(options, constants: any) {
 		});
 	}
 }
-
-/*function addSubscription(blocks: Array<Block>) {
-	let parent = blocks.find((block) => block.name === 'T1')
-
-	blocks.map((block) => {
-		let name = block.name;
-		let title = block.title;
-		let inputs = block.inputs || undefined;
-
-		if (name === 'Trigger') {
-			if (inputs === undefined || inputs.topic === undefined) throw Error(`${title}: Missing subscription topic`);
-
-			let topic = getRelativeTopic(blocks, inputs.topics);
-			let options = getOptions('');
-
-			//preferred
-			RedisSub.subscribe(topic, getCallback(options, constants));
-		}
-	})
-}
-*/
-
-
-
-
